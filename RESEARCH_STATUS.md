@@ -22,7 +22,7 @@ file referred to an unavailable external prototype and are not used as evidence.
 - 3 mathematical-hero tournaments (4 equity samples): 170 hands; exact rerun produced
   identical output and skipped completed rows. These tiny samples test plumbing only.
 - Held-out comparison smoke test: 2 seed pairs, gate failed; insufficient sample size.
-- compileall and git diff --check passed. Remote Actions status has not been verified.
+- compileall and git diff --check passed. GitHub Actions run 42632272023 passed for commit 678e2f4 (unit tests and 10000-hand stress check).
 
 ## Known limits
 
