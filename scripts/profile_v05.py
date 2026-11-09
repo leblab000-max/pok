@@ -6,6 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 import pstats
+import resource
 import sqlite3
 import statistics
 from time import perf_counter
@@ -55,6 +56,7 @@ def main():
     expensive=sorted(stats.stats.items(),key=lambda kv:kv[1][3],reverse=True)[:20]
     result=dict(samples=args.samples,repeat=args.repeat,spots=len(observations),
                 source=hashlib.sha256(b''.join(f.read_bytes() for f in sorted(Path('poker_ai').glob('*.py')))).hexdigest(),
+                peak_rss_kib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,
                 mean_ms=statistics.mean(timings)*1000,p95_ms=sorted(timings)[int(.95*len(timings))]*1000,
                 timings=timings,analyses=analyses,
                 cumulative_profile=[dict(function=str(k),calls=v[1],seconds=v[3]) for k,v in expensive])

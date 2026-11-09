@@ -34,7 +34,7 @@ an assertion that it is a stronger equilibrium policy.
 | Deep covering hero could enter shove/fold because only effective stack was short | Restricted shove/fold requires hero's remaining stack <=10 BB | test_deep_hero_not_forced_to_jam_by_short_effective_stack |
 | Free check treated as zero EV even with showdown value | Compare check and raise on the same showdown-realization model | test_check_ev_has_showdown_value_not_zero_fold_reference |
 | Displayed pot odds included ineligible unmatched excess | Eligible-pot cap uses hero final contribution | test_call_pot_odds_use_eligible_pot |
-| Ordinary call likelihood subtracted raises even when raising was unavailable; forced check narrowed range | Continue likelihood for forced calls; forced check conveys no card information | test_forced_check_no_range_information; MixtureRange response rules documented |
+| Ordinary call likelihood subtracted raises even when raising was unavailable; forced check narrowed range | Continue likelihood for forced calls; forced check conveys no card information | test_forced_check_no_range_information, test_forced_call_uses_continue_not_call_minus_raise |
 | ICM branch settlement used numeric-seat odd chips, unlike engine clockwise convention | Public payout_order and consistent settlement helper | test_simulation_matches_clockwise_odd_chip_rule, test_terminal_icm_helper_uses_same_odd_chip_rule |
 | Very small weights/long evidence histories could underflow into an empty range | Log-space recovery when positive mathematical mass underflows | test_range_underflow_recovery |
 | CDF left-boundary selection could select a zero-weight interval at U=0/exact boundary | Right-open interval selection and rounded-upper-end clamp | test_zero_weight_cdf_intervals_never_selected |
@@ -107,7 +107,8 @@ Audit context uses recorded public learned weights where available; legacy polic
 without such context use the neutral mixture. Therefore cross-policy flag rates
 also measure model disagreement, not only mistakes. No realized hand outcome enters
 the evaluator. Groups cover position, remaining stack depth, street and estimated
-profile. The report identifies high standardized margins without averaging chip and
+profile. Position early/middle/late denotes clockwise thirds left of the button
+(including blinds), not a claim of conventional preflop UTG/MP/CO labels. The report identifies high standardized margins without averaging chip and
 monetary utility together.
 
 ## Performance and resource controls

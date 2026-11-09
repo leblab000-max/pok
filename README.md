@@ -1,9 +1,71 @@
-# Poker AI v0.4 — offline tournament research
+# Poker AI v0.5 — calibrated adaptive tournament research
 
 Python **3.12**, standard library only. No poker-room connections or paid APIs.
 This is an auditable research agent, not a proven profitable or GTO strategy.
 
-## Quick start
+## v0.5 commands
+
+```bash
+python3.12 -m poker_ai --strategy adaptive --samples 32 \
+  --calibration reports/v05/calibration.json --seed 42
+python3.12 -m poker_ai.benchmark_v05 --count 108 --seed 2000000 --samples 32 \
+  --audit-samples 128 --audit-stride 32 --seconds 600 \
+  --calibration reports/v05/calibration.json --db v05-benchmark.sqlite --out reports/v05
+```
+
+The full study is 1296 tournaments (108 seeds × four policies × three profiles).
+A bounded run may be partial: inspect the completion status and repeat the exact
+command to resume. The source fingerprint and calibration-content hash separate
+experiments. Use the tracked frozen calibration artifact to reproduce the study;
+regenerating it under a later source revision produces a different artifact identity.
+For a quick local smoke use `--count 1 --samples 4 --audit-samples 8`.
+
+New modules: `OpponentModel`, `AdaptiveTournamentStrategy`, `DecisionAnalyzer` and
+`benchmark_v05`. Old policies and v0.4 benchmark remain available. Read
+[the mathematical audit](docs/V05_AUDIT.md), [v0.5 benchmark](reports/v05/BENCHMARK.md),
+[separate LAG report](reports/v05/LAG.md), and [decision review](reports/v05/DECISIONS.md).
+The algorithm is a response-tree heuristic, not a solved NLHE continuation strategy.
+
+Calibration uses public action counts on training seeds, not poker winnings:
+
+```bash
+python3.12 -m poker_ai.calibration --count 30 --seed 100 --output my-calibration.json
+PYTHONPATH=. python3.12 scripts/validate_v05.py --calibration my-calibration.json \
+  --output my-calibration-validation.json
+```
+
+Calibration seeds 100–129, validation seeds 500–509 and final holdout seeds
+2000000–2000107 are disjoint. Do not tune against a viewed holdout and reuse it as
+confirmation. Separate training benchmarks use `--split train --seed 1000`.
+ROI bootstrap intervals sample whole tournaments; paired comparisons preserve seeds
+and adjust nine comparisons. Potentially costly decisions are model-relative screens
+on an audited subset, not errors proven by a single hand result.
+
+A v0.5 Linux bounded command, suitable for an existing host or cron:
+
+```bash
+cd /opt/pok
+/usr/bin/flock -n /tmp/pok-v05.lock python3.12 -m poker_ai.benchmark_v05 \
+  --split train --seed 1000 --count 9 --samples 32 --audit-samples 64 \
+  --seconds 240 --calibration reports/v05/calibration.json \
+  --db /opt/pok/v05.sqlite --out /opt/pok/v05-report
+```
+
+No packages need installing. Deadline checks are cooperative; use an external
+`timeout` for a strict process cap. An interrupted tournament and its audits restart;
+completed ones are skipped. Keep a single writer, back up databases while stopped
+or through SQLite's backup API, and monitor trace disk use. `--trace-stride` controls
+stored snapshot density; `--audit-stride` controls independent audit frequency and
+is included in experiment identity. No data are automatically deleted.
+
+The default deterministic sampling cap is at most 1024 joint deals per Adaptive
+call. Optional Python constructor `decision_seconds` can truncate at decision-work
+boundaries and is hardware dependent; it is disabled in reproducible benchmarks.
+Overall benchmark audit time is outside measured playing-decision latency.
+
+## Preserved v0.4 interface
+
+### Quick start
 
 ```bash
 git clone -b dev/poker-simulator-v03 https://github.com/leblab000-max/pok.git
@@ -15,7 +77,7 @@ A complete 9-seat tournament runs, prints analytics and saves `results.sqlite`.
 Old `math`, `call`, `fold` policies remain available. Rerunning the exact command
 skips completed results. A changed source fingerprint creates a separate experiment.
 
-## Reproduce v0.4 evaluation
+### Reproduce v0.4 evaluation
 
 ```bash
 python3.12 -m unittest discover -s tests -v
@@ -46,7 +108,7 @@ Test seeds start at 1000000. Do not tune against an already viewed test window.
 The v0.3 `scripts/compare.py` remains a legacy two-policy smoke tool; use the new
 benchmark for v0.4 evidence. No candidate is automatically promoted.
 
-## What is implemented
+### v0.4 foundations
 
 - 2–9-seat Hold'em, four streets, ante/blinds, legal action order, minimum raises,
   cumulative short-all-in reopening, all-in calls, side pots, showdown and elimination.
@@ -102,7 +164,7 @@ not automatically deleted. Use `timeout 300s` outside the command if a strict pr
 limit is needed: the uncommitted tournament will restart on the next run.
 
 GitHub Actions runs tests, the 10000-hand stress check and a small benchmark on pushes.
-Scheduled/manual jobs run a bounded larger benchmark and upload SQLite/reports with
+Scheduled/manual jobs run a bounded v0.5 benchmark and upload SQLite/reports with
 14-day retention. GitHub schedules use the default branch: these dev-branch changes
 do not activate the new schedule on `main`. Actions quotas and VPS prices must be
 checked against the 1000 RUB/month ceiling; no billing is enabled by this repository.
@@ -110,3 +172,10 @@ No claim of a continuously running service is made.
 
 [Research status](RESEARCH_STATUS.md) records checks and limitations.
 [Next steps](NEXT_STEPS.md) lists the remaining work.
+
+For parallel local studies, use nonoverlapping seed windows and separate DB files.
+After each writer stops, merge with `PYTHONPATH=. python3.12 scripts/merge_v05.py
+TARGET.sqlite SHARD.sqlite`, then run the full-window benchmark command to regenerate
+reports from completed rows. Do not write concurrently into the same SQLite file.
+`PYTHONPATH=. python3.12 scripts/summarize_v05.py` creates the compact summary and
+LAG-only decision groups from the final experiment identity.

@@ -279,3 +279,25 @@ class AdditionalAuditRegressions(unittest.TestCase):
             chips=AdaptiveTournamentStrategy(1,10,use_icm=False).evaluate(o)
         self.assertEqual(money['decision']['action'],'fold');self.assertEqual(chips['decision']['action'],'call')
         self.assertTrue(money['icm_used'])
+
+class ShardCheckpointTests(unittest.TestCase):
+    def test_merge_preserves_ids_and_is_idempotent(self):
+        import os
+        import subprocess
+        import sys
+        from poker_ai.benchmark import connect
+        with tempfile.TemporaryDirectory() as directory:
+            target=str(Path(directory)/'target.sqlite');source=str(Path(directory)/'source.sqlite')
+            def insert(path,seed,marker):
+                with connect(path) as db:
+                    cursor=db.execute('INSERT INTO benchmark_runs(config,strategy,profile,seed,seat,result) VALUES (?,?,?,?,?,?)',
+                                      ('same','call','lag',seed,seed%9,'{}'))
+                    db.execute('INSERT INTO decision_traces(run_id,risk,payload) VALUES (?,?,?)',(cursor.lastrowid,1,json.dumps(marker)))
+            insert(target,9,'target-nine');insert(target,1,'target-one')
+            insert(source,1,'duplicate');insert(source,2,'source-two')
+            for _ in range(2):
+                subprocess.run([sys.executable,'scripts/merge_v05.py',target,source],check=True,capture_output=True,
+                               env={**os.environ,'PYTHONPATH':str(Path.cwd())})
+            with connect(target) as db:
+                rows=db.execute('SELECT b.seed,t.payload FROM benchmark_runs b JOIN decision_traces t ON b.id=t.run_id ORDER BY b.seed').fetchall()
+            self.assertEqual(rows,[(1,json.dumps('target-one')),(2,json.dumps('source-two')),(9,json.dumps('target-nine'))])
