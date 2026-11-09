@@ -8,6 +8,7 @@ import sqlite3
 import statistics
 from dataclasses import asdict
 from .engine import tournament
+from .advanced import AdvancedTournamentStrategy
 from .strategy import CallingBaseline, ConservativeBaseline, MathematicalBaseline
 
 
@@ -16,23 +17,23 @@ def main() -> None:
     p.add_argument('--tournaments', type=int, default=1)
     p.add_argument('--seed', type=int, default=1)
     p.add_argument('--db', default='results.sqlite')
-    p.add_argument('--strategy', choices=['math','call','fold'], default='math')
+    p.add_argument('--strategy', choices=['math','call','fold','advanced'], default='math')
     p.add_argument('--samples', type=int, default=24)
     p.add_argument('--buy-in', type=float, default=100)
     p.add_argument('--fee', type=float, default=10)
     args = p.parse_args()
-    if args.tournaments < 1 or args.samples < 1 or args.buy_in <= 0 or args.fee < 0: p.error('Invalid experiment parameters')
+    if args.tournaments < 1 or args.samples < 2 or args.buy_in <= 0 or args.fee < 0: p.error('Invalid experiment parameters')
     source_hash = hashlib.sha256(b''.join(f.read_bytes() for f in sorted(Path(__file__).parent.glob('*.py')))).hexdigest()
     config = json.dumps(dict(source_hash=source_hash,strategy=args.strategy,samples=args.samples,buy_in=args.buy_in,fee=args.fee,version=2),sort_keys=True)
     with sqlite3.connect(args.db) as db:
         db.execute('CREATE TABLE IF NOT EXISTS tournaments (config TEXT, seed INTEGER, result TEXT, PRIMARY KEY(config,seed))')
         for seed in range(args.seed, args.seed+args.tournaments):
             if db.execute('SELECT 1 FROM tournaments WHERE config=? AND seed=?',(config,seed)).fetchone(): continue
-            hero = {'math':lambda:MathematicalBaseline(seed,args.samples), 'call':CallingBaseline,'fold':ConservativeBaseline}[args.strategy]()
+            hero = {'advanced':lambda:AdvancedTournamentStrategy(seed,args.samples),'math':lambda:MathematicalBaseline(seed,args.samples), 'call':CallingBaseline,'fold':ConservativeBaseline}[args.strategy]()
             opponents = [CallingBaseline() if i%2 else ConservativeBaseline() for i in range(8)]
             # Rotate hero seat to reduce position/seat assignment bias.
             seat = seed%9; players = opponents[:]; players.insert(seat,hero)
-            r = tournament(players,seed)
+            r = tournament(players,seed,payouts=(.5*9*args.buy_in,.3*9*args.buy_in,.2*9*args.buy_in))
             data = asdict(r); data['hero_seat'] = seat
             db.execute('INSERT INTO tournaments VALUES (?,?,?)',(config,seed,json.dumps(data)))
             db.commit()  # completed tournament is atomic; restart skips it

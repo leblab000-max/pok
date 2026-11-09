@@ -8,6 +8,19 @@ from typing import Protocol
 ACTIONS = frozenset({"fold", "check", "call", "raise"})
 
 @dataclass(frozen=True)
+class PublicAction:
+    seat: int
+    action: str
+    paid: int
+    pot: int
+    stack_before: int
+    all_in: bool
+    position: float
+    depth_bb: float
+    board: tuple[str, ...]
+
+
+@dataclass(frozen=True)
 class Observation:
     seat: int
     hole_cards: tuple[str, str]
@@ -24,6 +37,14 @@ class Observation:
     effective_stack: int = 0
     history: tuple = ()
     tournament_players: int = 9
+
+    stacks: tuple[tuple[int, int], ...] = ()
+    contributions: tuple[tuple[int, int], ...] = ()
+    street_contributions: tuple[tuple[int, int], ...] = ()
+    folded: tuple[int, ...] = ()
+    payouts: tuple[float, ...] = ()
+    public_actions: tuple[PublicAction, ...] = ()
+    hand_id: int = 0
 
     def __post_init__(self):
         from .cards import RANKS, SUITS

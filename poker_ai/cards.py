@@ -48,6 +48,34 @@ def evaluate_five(cards):
         return (1, groups[0][1], *sorted((r for r in ranks if r != groups[0][1]), reverse=True))
     return (0, *ordered)
 
+def evaluate_best(cards):
+    """Direct ranking for 5–7 cards; tuples match the five-card oracle."""
+    if len(cards) not in (5,6,7): raise ValueError('Need 5–7 cards')
+    _validate(cards, len(cards))
+    ranks = [RANKS.index(c[0])+2 for c in cards]
+    counts = Counter(ranks)
+    ordered = sorted(counts, reverse=True)
+    flush = next(([RANKS.index(c[0])+2 for c in cards if c[1]==s]
+                  for s in SUITS if sum(c[1]==s for c in cards)>=5), None)
+    if flush:
+        high = _straight_high(flush)
+        if high: return (8, high)
+    quads = [r for r in ordered if counts[r]==4]
+    if quads: return (7, quads[0], next(r for r in ordered if r!=quads[0]))
+    trips = [r for r in ordered if counts[r]>=3]
+    if trips:
+        pairs = [r for r in ordered if r!=trips[0] and counts[r]>=2]
+        if pairs: return (6, trips[0], pairs[0])
+    if flush: return (5, *sorted(flush,reverse=True)[:5])
+    high = _straight_high(ranks)
+    if high: return (4, high)
+    if trips: return (3, trips[0], *[r for r in ordered if r!=trips[0]][:2])
+    pairs = [r for r in ordered if counts[r]>=2]
+    if len(pairs)>=2: return (2, *pairs[:2], next(r for r in ordered if r not in pairs[:2]))
+    if pairs: return (1, pairs[0], *[r for r in ordered if r!=pairs[0]][:3])
+    return (0, *ordered[:5])
+
+
 def evaluate_seven(cards):
-    _validate(cards, 7)
-    return max(evaluate_five(hand) for hand in combinations(cards, 5))
+    if len(cards) != 7: raise ValueError('Expected 7 distinct cards')
+    return evaluate_best(cards)

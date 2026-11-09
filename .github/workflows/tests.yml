@@ -7,6 +7,9 @@ on:
     - cron: '17 3 * * *'
 permissions:
   contents: read
+concurrency:
+  group: poker-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   unit-tests:
     runs-on: ubuntu-latest
@@ -16,18 +19,27 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Run unit tests
+      - name: Run unit and integration tests
         run: python -m unittest discover -s tests -v
       - name: Invariant stress test
         run: PYTHONPATH=. python scripts/stress.py
+      - name: Benchmark smoke
+        run: |
+          python -m poker_ai.benchmark --count 1 --samples 4 --seconds 120 --db smoke.sqlite --report smoke.md > smoke-status.json
+          python -c "import json; r=json.load(open('smoke-status.json')); assert r['completed']==12 and not r['budget_exhausted'], r"
       - name: Scheduled reproducible experiment
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-        run: python -m poker_ai --strategy math --samples 8 --tournaments 20 > report.json
+        run: python -m poker_ai.benchmark --count 3 --samples 16 --seconds 180 --db scheduled.sqlite --report scheduled.md
       - uses: actions/upload-artifact@v4
-        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        if: always()
         with:
           name: simulation-results
           path: |
-            report.json
-            results.sqlite
+            smoke.md
+            smoke.review.md
+            smoke-status.json
+            smoke.sqlite
+            scheduled.md
+            scheduled.review.md
+            scheduled.sqlite
           retention-days: 14
