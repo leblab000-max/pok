@@ -1,7 +1,7 @@
 """Side-pot settlement for offline Hold'em simulations (integer chips)."""
 from collections.abc import Mapping
 
-def settle_pots(contributions: Mapping[int, int], folded: set[int], scores: Mapping[int, tuple]) -> dict[int, int]:
+def settle_pots(contributions: Mapping[int, int], folded: set[int], scores: Mapping[int, tuple], order: tuple[int, ...] | None = None) -> dict[int, int]:
     """Return gross chips won by seat, including uncalled overbets.
 
     scores are comparable hand-ranking tuples. Odd chips go to the lowest
@@ -17,12 +17,15 @@ def settle_pots(contributions: Mapping[int, int], folded: set[int], scores: Mapp
         raise ValueError("Unknown folded seat")
     if not (contributions.keys() - folded):
         raise ValueError("At least one live player required")
+    if order is not None and (len(order)!=len(contributions) or set(order)!=set(contributions)):
+        raise ValueError('Invalid clockwise odd-chip order')
+    priority = {s:i for i,s in enumerate(order)} if order is not None else {s:s for s in contributions}
     payouts = {s: 0 for s in contributions}
     previous = 0
     for level in sorted(set(contributions.values()) - {0}):
         participants = [s for s, n in contributions.items() if n >= level]
         pot = (level - previous) * len(participants)
-        eligible = sorted(s for s in participants if s not in folded)
+        eligible = sorted((s for s in participants if s not in folded),key=priority.get)
         if not eligible:
             raise ValueError("Pot tier without eligible players")
         if len(eligible) == 1:

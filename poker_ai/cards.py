@@ -48,17 +48,34 @@ def evaluate_five(cards):
         return (1, groups[0][1], *sorted((r for r in ranks if r != groups[0][1]), reverse=True))
     return (0, *ordered)
 
+_CARD_PARTS = {r+s:(i+2,j) for i,r in enumerate(RANKS) for j,s in enumerate(SUITS)}
+
+
+def _mask_high(mask):
+    for high in range(14,5,-1):
+        required = 31 << (high-6)
+        if mask & required == required: return high
+    return 5 if mask & 0x100f == 0x100f else 0
+
+
+_STRAIGHTS = tuple(_mask_high(mask) for mask in range(8192))
+
+
 def evaluate_best(cards):
     """Direct ranking for 5–7 cards; tuples match the five-card oracle."""
     if len(cards) not in (5,6,7): raise ValueError('Need 5–7 cards')
     _validate(cards, len(cards))
-    ranks = [RANKS.index(c[0])+2 for c in cards]
-    counts = Counter(ranks)
-    ordered = sorted(counts, reverse=True)
-    flush = next(([RANKS.index(c[0])+2 for c in cards if c[1]==s]
-                  for s in SUITS if sum(c[1]==s for c in cards)>=5), None)
+    counts = [0]*15
+    suits = [[],[],[],[]]
+    mask = 0
+    for card in cards:
+        rank,suit = _CARD_PARTS[card]
+        counts[rank] += 1; suits[suit].append(rank); mask |= 1 << (rank-2)
+    ordered = [rank for rank in range(14,1,-1) if counts[rank]]
+    flush = next((r for r in suits if len(r)>=5),None)
     if flush:
-        high = _straight_high(flush)
+        flush_mask = sum(1 << (r-2) for r in flush)
+        high = _STRAIGHTS[flush_mask]
         if high: return (8, high)
     quads = [r for r in ordered if counts[r]==4]
     if quads: return (7, quads[0], next(r for r in ordered if r!=quads[0]))
@@ -67,7 +84,7 @@ def evaluate_best(cards):
         pairs = [r for r in ordered if r!=trips[0] and counts[r]>=2]
         if pairs: return (6, trips[0], pairs[0])
     if flush: return (5, *sorted(flush,reverse=True)[:5])
-    high = _straight_high(ranks)
+    high = _STRAIGHTS[mask]
     if high: return (4, high)
     if trips: return (3, trips[0], *[r for r in ordered if r!=trips[0]][:2])
     pairs = [r for r in ordered if counts[r]>=2]

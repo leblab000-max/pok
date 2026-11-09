@@ -27,9 +27,13 @@ jobs:
         run: |
           python -m poker_ai.benchmark --count 1 --samples 4 --seconds 120 --db smoke.sqlite --report smoke.md > smoke-status.json
           python -c "import json; r=json.load(open('smoke-status.json')); assert r['completed']==12 and not r['budget_exhausted'], r"
+      - name: v0.5 benchmark smoke
+        run: |
+          python -m poker_ai.benchmark_v05 --count 1 --samples 4 --audit-samples 8 --seconds 120 --db v05-smoke.sqlite --out v05-smoke > v05-status.json
+          python -c "import json; r=json.load(open('v05-status.json')); assert r['completed']==12 and not r['budget_exhausted'], r"
       - name: Scheduled reproducible experiment
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-        run: python -m poker_ai.benchmark --count 3 --samples 16 --seconds 180 --db scheduled.sqlite --report scheduled.md
+        run: python -m poker_ai.benchmark_v05 --count 3 --samples 16 --audit-samples 32 --seconds 180 --db scheduled.sqlite --out scheduled
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -39,7 +43,9 @@ jobs:
             smoke.review.md
             smoke-status.json
             smoke.sqlite
-            scheduled.md
-            scheduled.review.md
+            scheduled/
+            v05-smoke/
+            v05-status.json
+            v05-smoke.sqlite
             scheduled.sqlite
           retention-days: 14

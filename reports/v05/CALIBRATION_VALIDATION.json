@@ -1,0 +1,107 @@
+{
+  "seed": 500,
+  "count": 10,
+  "split": "train-validation",
+  "rows": [
+    {
+      "profile": "tag",
+      "models": {
+        "default": {
+          "style_brier": {
+            "n": 1437,
+            "mean": 0.28351943582466377
+          },
+          "style_correct": {
+            "n": 1437,
+            "mean": 0.9909533750869868
+          },
+          "fold_brier": {
+            "n": 639,
+            "mean": 0.2583929022682061
+          }
+        },
+        "calibrated": {
+          "style_brier": {
+            "n": 1437,
+            "mean": 0.31074896463461277
+          },
+          "style_correct": {
+            "n": 1437,
+            "mean": 0.942240779401531
+          },
+          "fold_brier": {
+            "n": 639,
+            "mean": 0.2583929022682061
+          }
+        }
+      }
+    },
+    {
+      "profile": "lag",
+      "models": {
+        "default": {
+          "style_brier": {
+            "n": 124,
+            "mean": 0.5604473361303307
+          },
+          "style_correct": {
+            "n": 124,
+            "mean": 0.45161290322580644
+          },
+          "fold_brier": {
+            "n": 2275,
+            "mean": 0.1251162076284899
+          }
+        },
+        "calibrated": {
+          "style_brier": {
+            "n": 124,
+            "mean": 0.21902856504473253
+          },
+          "style_correct": {
+            "n": 124,
+            "mean": 0.9435483870967742
+          },
+          "fold_brier": {
+            "n": 2275,
+            "mean": 0.1251162076284899
+          }
+        }
+      }
+    },
+    {
+      "profile": "passive",
+      "models": {
+        "default": {
+          "style_brier": {
+            "n": 677,
+            "mean": 0.27429520694167875
+          },
+          "style_correct": {
+            "n": 677,
+            "mean": 0.9630723781388478
+          },
+          "fold_brier": {
+            "n": 1369,
+            "mean": 0.17858210862527393
+          }
+        },
+        "calibrated": {
+          "style_brier": {
+            "n": 677,
+            "mean": 0.18353836498427709
+          },
+          "style_correct": {
+            "n": 677,
+            "mean": 1
+          },
+          "fold_brier": {
+            "n": 1369,
+            "mean": 0.17858210862527393
+          }
+        }
+      }
+    }
+  ],
+  "note": "Prequential predictions before public events; repeated opportunities are correlated, not independent tournament evidence. No ROI tuning."
+}

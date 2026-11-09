@@ -66,7 +66,7 @@ def likelihood(strength: float, action: str, profile: str, position: float = .5,
     raise ValueError('Unknown range update action')
 
 
-@lru_cache(maxsize=30000)
+@lru_cache(maxsize=65536)
 def board_strength(combo: tuple[str, str], board: tuple[str, ...]) -> float:
     score = evaluate_best(combo+board)
     return min(.99, .18 + .105*score[0] + .012*score[1])
@@ -99,22 +99,9 @@ class HandRange:
         self.updates.append((action, profile, position, depth_bb, tuple(board)))
 
     def combos(self, blocked: tuple[str, ...] = ()) -> list[tuple[tuple[str, str], float]]:
-        blocked_set = set(blocked).union(*(set(u[4]) for u in self.updates))
-        result = []
-        for name, combos in classes().items():
-            for combo in combos:
-                if blocked_set.intersection(combo) or self.weights[name] == 0: continue
-                weight = self.weights[name]
-                for action, profile, position, depth, board in self.updates:
-                    strength = preflop_strength(name)
-                    if board:
-                        # Made-hand ordering is a likelihood proxy, not future equity.
-                        strength = board_strength(combo,board)
-                    weight *= likelihood(strength, action, profile, position, depth)
-                if weight > 0: result.append((combo, weight))
-        if not result: raise ValueError('Range has no unblocked positive-mass combinations')
-        scale = max(w for _,w in result)
-        return [(h,w/scale) for h,w in result]
+        key = tuple((name,self.weights[name]) for name in classes())
+        updates = tuple((a,p,pos,d,tuple(b)) for a,p,pos,d,b in self.updates)
+        return list(_expanded(key,updates,tuple(sorted(set(blocked)))))
 
     def save(self, path: str | Path) -> None:
         Path(path).write_text(json.dumps({'version':1, 'weights': self.weights,'updates':self.updates},indent=2))
@@ -127,3 +114,40 @@ class HandRange:
         for action, profile, position, depth, board in data['updates']:
             result.update(action, profile, position, depth, tuple(board))
         return result
+
+
+@lru_cache(maxsize=96)
+def _expanded(weight_items: tuple, updates: tuple, blocked: tuple) -> tuple:
+    """Bounded, value-keyed cache; mutable ranges never share stale results."""
+    weights = dict(weight_items)
+    blocked_set = set(blocked).union(*(set(u[4]) for u in updates))
+    result = []
+    for name, combos in classes().items():
+        for combo in combos:
+            if blocked_set.intersection(combo) or weights[name] == 0: continue
+            weight = weights[name]
+            for action, profile, position, depth, board in updates:
+                strength = preflop_strength(name)
+                if board:
+                    # Made-hand ordering is a likelihood proxy, not future equity.
+                    strength = board_strength(combo,board)
+                weight *= likelihood(strength, action, profile, position, depth)
+            if weight > 0: result.append((combo, weight))
+    if not result:
+        # Very small prior weights or long action histories can underflow. Recover
+        # the same conditional distribution in log space rather than inventing mass.
+        log_results=[]
+        for name,combos in classes().items():
+            if weights[name]==0:continue
+            for combo in combos:
+                if blocked_set.intersection(combo):continue
+                value=math.log(weights[name])
+                for action,profile,position,depth,board in updates:
+                    strength=board_strength(combo,board) if board else preflop_strength(name)
+                    value+=math.log(likelihood(strength,action,profile,position,depth))
+                log_results.append((combo,value))
+        if not log_results:raise ValueError('Range has no unblocked positive-mass combinations')
+        high=max(w for _,w in log_results)
+        return tuple((h,math.exp(w-high)) for h,w in log_results)
+    scale = max(w for _,w in result)
+    return tuple((h,w/scale) for h,w in result)

@@ -65,7 +65,7 @@ def icm(stacks: list[int], payouts: list[float]) -> list[float]:
 
 
 from dataclasses import dataclass
-from bisect import bisect_left
+from .sampling import cdf_index
 from .ranges import HandRange
 
 @dataclass(frozen=True)
@@ -101,7 +101,7 @@ def weighted_equity(hole: tuple[str, str], board: tuple[str, ...], ranges: list[
     while len(shares)<samples:
         attempts += 1
         if attempts>limit: raise ValueError('Insufficient compatible joint range mass within sampling budget')
-        hands = [combos[bisect_left(cumulative,rng.random()*cumulative[-1])] for combos,cumulative in distributions]
+        hands = [combos[cdf_index(cumulative,rng.random()*cumulative[-1])] for combos,cumulative in distributions]
         used = [c for h in hands for c in h]
         if len(set(used)) != len(used): continue
         available = [c for c in deck() if c not in hole+board and c not in used]

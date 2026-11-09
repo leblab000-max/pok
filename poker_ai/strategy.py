@@ -18,6 +18,12 @@ class PublicAction:
     position: float
     depth_bb: float
     board: tuple[str, ...]
+    hand_id: int = -1
+    action_id: int = -1
+    to_call: int = 0
+    raises_before: int = 0
+    facing_raise: bool = False
+    can_raise: bool = True
 
 
 @dataclass(frozen=True)
@@ -45,6 +51,7 @@ class Observation:
     payouts: tuple[float, ...] = ()
     public_actions: tuple[PublicAction, ...] = ()
     hand_id: int = 0
+    payout_order: tuple[int, ...] = ()
 
     def __post_init__(self):
         from .cards import RANKS, SUITS

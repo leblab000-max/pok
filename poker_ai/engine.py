@@ -28,6 +28,9 @@ def play_hand(stacks: dict[int, int], button: int, strategies: dict[int, Strateg
     if type(big_blind) is not int or big_blind < 2 or type(ante) is not int or ante < 0:
         raise ValueError('Invalid forced bets')
     total = sum(stacks.values())
+    for strategy in {id(v):v for v in strategies.values()}.values():
+        starter = getattr(strategy, 'start_hand', None)
+        if starter is not None: starter(hand_id, tuple(seats))
     order = seats[seats.index(button)+1:] + seats[:seats.index(button)+1]
     sb, bb = (button, order[0]) if len(seats) == 2 else (order[0], order[1])
     cards = deck(); rng.shuffle(cards)
@@ -51,6 +54,7 @@ def play_hand(stacks: dict[int, int], button: int, strategies: dict[int, Strateg
         if not board: b.current_bet = max(big_blind, b.current_bet)
         start = seats[(seats.index(bb)+1) % len(seats)] if not board else order[0]
         cursor = seats.index(start)
+        raises = 0
         while not b.complete():
             s = seats[cursor % len(seats)]; cursor += 1
             if s in folded or stacks[s] == 0: continue
@@ -65,19 +69,22 @@ def play_hand(stacks: dict[int, int], button: int, strategies: dict[int, Strateg
                               history=tuple(history), tournament_players=len(seats),
                               stacks=tuple(stacks.items()), contributions=tuple(committed.items()),
                               street_contributions=tuple(b.contributions.items()), folded=tuple(sorted(folded)),
-                              payouts=payouts, public_actions=tuple(events), hand_id=hand_id)
+                              payouts=payouts, public_actions=tuple(events), hand_id=hand_id,payout_order=tuple(order))
             started = perf_counter()
             decision = strategies[s].decide(obs)
             elapsed = perf_counter()-started
             validate_decision(obs, decision)
             if decision_sink is not None:
                 decision_sink(obs, decision, elapsed, getattr(strategies[s], 'last_analysis', {}))
-            before = stacks[s]; b.act(s, decision.action, decision.raise_to)
+            before = stacks[s]
+            faced_raise = raises >= (1 if not board else 2) and b.current_bet > b.contributions[s]
+            b.act(s, decision.action, decision.raise_to)
             committed[s] += before-stacks[s]
             history.append((street, s, decision.action, decision.raise_to))
             event = PublicAction(s, decision.action, before-stacks[s], obs.pot, before,
-                                 stacks[s]==0, order.index(s)/max(1,len(seats)-1), before/big_blind, tuple(board))
+                                 stacks[s]==0, order.index(s)/max(1,len(seats)-1), before/big_blind, tuple(board),hand_id,len(events),obs.to_call,raises,faced_raise,can_raise)
             events.append(event)
+            if decision.action == 'raise': raises += 1
             for strategy in {id(v):v for v in strategies.values()}.values():
                 observer = getattr(strategy, 'observe', None)
                 if observer is not None: observer(event)

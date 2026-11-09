@@ -37,7 +37,7 @@ def terminal_ev(o: Observation, opponent: int, hero_cost: int, opponent_cost: in
     committed[o.seat] += hero_cost; committed[opponent] += opponent_cost
     outcomes = []
     for a,b in [(1,0),(0,1),(0,0)]:
-        prizes = settle_pots(committed,set(o.folded),{o.seat:(a,),opponent:(b,)})
+        prizes = settle_pots(committed,set(o.folded),{o.seat:(a,),opponent:(b,)},order=o.payout_order or None)
         values = {s:after[s]+prizes[s] for s in seats}
         if sum(values.values()) != sum(stacks.values())+o.pot: raise ValueError('Terminal model lost chips')
         outcomes.append((values[o.seat],money(values)))

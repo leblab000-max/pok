@@ -1,0 +1,2785 @@
+{
+  "samples": 32,
+  "repeat": 3,
+  "spots": 48,
+  "source": "3b4316caccf1c868ade481304862004eec8a5a0f45d8dd3c5b313a1494c165c9",
+  "mean_ms": 79.27163913887449,
+  "p95_ms": 213.07463499988444,
+  "timings": [
+    0.026611869000134902,
+    0.023224594999646797,
+    0.045239580999805185,
+    0.2429243999999926,
+    0.062044845999935205,
+    0.03879723099998955,
+    0.07721350000019811,
+    0.14891283799988742,
+    0.020755764999648818,
+    0.26117241600013585,
+    0.01635855900030947,
+    0.022164244999657967,
+    0.10250608200021816,
+    0.03463259999989532,
+    0.06317899800023952,
+    0.030678387000079965,
+    0.04721163600015643,
+    0.02892377199987095,
+    0.08026569599996947,
+    0.029404185000203142,
+    0.12391201099990212,
+    0.22126708800033157,
+    0.049481822999950964,
+    0.05469643900005394,
+    0.05630149600028744,
+    0.0410398530002567,
+    0.04392280499996559,
+    0.05848626599981799,
+    0.07941805299969928,
+    0.13962806099971203,
+    0.1352023519998511,
+    0.12109870299991599,
+    0.1109661740001684,
+    0.1231758680000894,
+    0.07154398800003037,
+    0.08641830500027936,
+    0.05972316699990188,
+    0.04206322500021997,
+    0.027498660999754065,
+    0.028030802999637672,
+    0.04861980300029245,
+    0.028371465999953216,
+    0.06494465700006913,
+    0.05089599599978101,
+    0.13494967499991617,
+    0.11753845199973512,
+    0.09982193899986669,
+    0.10596079900005861,
+    0.03872598299994934,
+    0.8300304680001318,
+    0.1750171210001099,
+    0.03214147199969375,
+    0.03949321299978692,
+    0.04924756799982788,
+    0.06089055299980828,
+    0.06477061899977343,
+    0.013402018999840948,
+    0.017333039000277495,
+    0.016301962999932584,
+    0.02244832500036864,
+    0.02284114700023565,
+    0.012964821000423399,
+    0.04159233199970913,
+    0.020903293000174017,
+    0.028143009999894275,
+    0.030090996000126324,
+    0.04918985399990561,
+    0.022702258999743208,
+    0.024993213000016112,
+    0.0405472889997327,
+    0.03302854399998978,
+    0.02418271700025798,
+    0.030873080999754166,
+    0.04378010300024471,
+    0.05603165999991688,
+    0.05432455099980871,
+    0.5845008299997971,
+    0.16147524899997734,
+    0.1816005910000058,
+    0.10479314899976089,
+    0.058420981999915966,
+    0.10638624400007757,
+    0.24317263400007505,
+    0.0664795879997655,
+    0.039365663999888056,
+    0.0683863700000984,
+    0.03451909000023079,
+    0.05073557499963499,
+    0.08495871299965074,
+    0.05615209600000526,
+    0.1534977000001163,
+    0.06045419099973515,
+    0.21307463499988444,
+    0.21428012300020782,
+    0.19870319200026643,
+    0.13842323100016074,
+    0.028566721999595757,
+    0.048834555999746954,
+    0.06715172899976096,
+    0.055454780999752984,
+    0.04591331900019213,
+    0.036005844000101206,
+    0.05503631300007328,
+    0.10393413100018734,
+    0.008771550999881583,
+    0.020643969000047946,
+    0.015147864000027766,
+    0.02842326000018147,
+    0.03356132199996864,
+    0.01993495799979428,
+    0.05998887800024022,
+    0.0448698999998669,
+    0.05018622500028869,
+    0.0455408279999574,
+    0.036280854999859,
+    0.031279133999760234,
+    0.035990511999898445,
+    0.059753587000159314,
+    0.05257694000010815,
+    0.0305458660000113,
+    0.041386341999896104,
+    0.055060208999748284,
+    0.056265390000135085,
+    0.08543284200004564,
+    0.10400439500017455,
+    0.1213006680000035,
+    0.08536807600012253,
+    0.0770328370003881,
+    0.051947666999694775,
+    0.04269210699976611,
+    0.0969434620001266,
+    0.05124200000000201,
+    0.05181198000036602,
+    0.1433589650000613,
+    0.054184876999897824,
+    0.05065809400002763,
+    0.05935734400009096,
+    0.031028152000089904,
+    0.07529156999999032,
+    0.05546366599992325,
+    0.15107104500020796,
+    0.1274332649995813,
+    0.16023487299980843,
+    0.12958297700015464
+  ],
+  "analyses": [
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "fold",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "call",
+          "raise_to": null,
+          "chip_ev": 2.1875,
+          "money_ev": null,
+          "model": "showdown-equity proxy; no future betting"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 35.95170441363624,
+          "money_ev": null,
+          "fold_equity": 0.43805728286923823,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 88,
+          "chip_ev": 33.00150514869974,
+          "money_ev": null,
+          "fold_equity": 0.43805728286923823,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.15625,
+        "win": 0.15625,
+        "tie": 0.0,
+        "standard_error": 0.06521328221627366,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.1282051282051282,
+      "profiles": {
+        "2": "tag",
+        "7": "tag"
+      },
+      "fold_equity": 0.43805728286923823,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "fold",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "call",
+          "raise_to": null,
+          "chip_ev": 3.375,
+          "money_ev": null,
+          "model": "showdown-equity proxy; no future betting"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 18.168428914124785,
+          "money_ev": null,
+          "fold_equity": 0.33224025345560854,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 88,
+          "chip_ev": 10.155311955592088,
+          "money_ev": null,
+          "fold_equity": 0.33224025345560854,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.265625,
+        "win": 0.25,
+        "tie": 0.03125,
+        "standard_error": 0.07772072820517018,
+        "samples": 32,
+        "attempts": 38
+      },
+      "pot_odds": 0.22727272727272727,
+      "profiles": {
+        "0": "tag",
+        "2": "tag",
+        "3": "tag"
+      },
+      "fold_equity": 0.33224025345560854,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 88
+      },
+      "alternatives": [
+        {
+          "action": "fold",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "call",
+          "raise_to": null,
+          "chip_ev": -9.0,
+          "money_ev": null,
+          "model": "showdown-equity proxy; no future betting"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 21.340718333763423,
+          "money_ev": null,
+          "fold_equity": 0.2263746044976319,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 88,
+          "chip_ev": 24.82203261352408,
+          "money_ev": null,
+          "fold_equity": 0.2263746044976319,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.125,
+        "win": 0.125,
+        "tie": 0.0,
+        "standard_error": 0.059398870413936426,
+        "samples": 32,
+        "attempts": 48
+      },
+      "pot_odds": 0.22727272727272727,
+      "profiles": {
+        "2": "tag",
+        "3": "tag",
+        "4": "tag",
+        "5": "tag"
+      },
+      "fold_equity": 0.2263746044976319,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "fold",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "call",
+          "raise_to": null,
+          "chip_ev": 8.6875,
+          "money_ev": null,
+          "model": "showdown-equity proxy; no future betting"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 10.254953633738047,
+          "money_ev": null,
+          "fold_equity": 0.3002077151098595,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 68,
+          "chip_ev": 5.9687258887859365,
+          "money_ev": null,
+          "fold_equity": 0.3002077151098595,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.421875,
+        "win": 0.40625,
+        "tie": 0.03125,
+        "standard_error": 0.08726747618210089,
+        "samples": 32,
+        "attempts": 60
+      },
+      "pot_odds": 0.29411764705882354,
+      "profiles": {
+        "2": "tag",
+        "3": "tag",
+        "4": "tag",
+        "5": "tag"
+      },
+      "fold_equity": 0.3002077151098595,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "fold",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "call",
+          "raise_to": null,
+          "chip_ev": -12.208333333333334,
+          "money_ev": null,
+          "model": "showdown-equity proxy; no future betting"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 3.1547246762041325,
+          "money_ev": null,
+          "fold_equity": 0.19560044262249565,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 68,
+          "chip_ev": -2.476072225438397,
+          "money_ev": null,
+          "fold_equity": 0.19560044262249565,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.11458333333333333,
+        "win": 0.09375,
+        "tie": 0.0625,
+        "standard_error": 0.05367200726448828,
+        "samples": 32,
+        "attempts": 64
+      },
+      "pot_odds": 0.29411764705882354,
+      "profiles": {
+        "2": "tag",
+        "3": "tag",
+        "4": "tag",
+        "5": "tag",
+        "6": "tag"
+      },
+      "fold_equity": 0.19560044262249565,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "fold",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "call",
+          "raise_to": null,
+          "chip_ev": -1.9375,
+          "money_ev": null,
+          "model": "showdown-equity proxy; no future betting"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 5.779414034449963,
+          "money_ev": null,
+          "fold_equity": 0.16806727161477758,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 68,
+          "chip_ev": 2.8676494851016843,
+          "money_ev": null,
+          "fold_equity": 0.16806727161477758,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.265625,
+        "win": 0.25,
+        "tie": 0.03125,
+        "standard_error": 0.07772072820517018,
+        "samples": 32,
+        "attempts": 143
+      },
+      "pot_odds": 0.29411764705882354,
+      "profiles": {
+        "2": "tag",
+        "3": "tag",
+        "4": "tag",
+        "5": "tag",
+        "6": "tag",
+        "7": "tag"
+      },
+      "fold_equity": 0.16806727161477758,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "fold",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "call",
+          "raise_to": null,
+          "chip_ev": -10.4375,
+          "money_ev": null,
+          "model": "showdown-equity proxy; no future betting"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 6.3260451139219205,
+          "money_ev": null,
+          "fold_equity": 0.1228459396922833,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 68,
+          "chip_ev": 5.302698710229586,
+          "money_ev": null,
+          "fold_equity": 0.1228459396922833,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.140625,
+        "win": 0.125,
+        "tie": 0.03125,
+        "standard_error": 0.06038508397721645,
+        "samples": 32,
+        "attempts": 218
+      },
+      "pot_odds": 0.29411764705882354,
+      "profiles": {
+        "2": "tag",
+        "3": "tag",
+        "4": "tag",
+        "5": "tag",
+        "6": "tag",
+        "7": "tag",
+        "8": "tag"
+      },
+      "fold_equity": 0.1228459396922833,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "fold",
+        "raise_to": null
+      },
+      "alternatives": [
+        {
+          "action": "fold",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "call",
+          "raise_to": null,
+          "chip_ev": -17.875,
+          "money_ev": null,
+          "model": "showdown-equity proxy; no future betting"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": -22.191273624475965,
+          "money_ev": null,
+          "fold_equity": 0.0787035455360005,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 68,
+          "chip_ev": -40.732364770563954,
+          "money_ev": null,
+          "fold_equity": 0.0787035455360005,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.03125,
+        "win": 0.03125,
+        "tie": 0.0,
+        "standard_error": 0.03125,
+        "samples": 32,
+        "attempts": 391
+      },
+      "pot_odds": 0.29411764705882354,
+      "profiles": {
+        "0": "tag",
+        "2": "tag",
+        "3": "tag",
+        "4": "tag",
+        "5": "tag",
+        "6": "tag",
+        "7": "tag",
+        "8": "tag"
+      },
+      "fold_equity": 0.0787035455360005,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 41.34145569586335,
+          "money_ev": null,
+          "fold_equity": 0.5637697072566508,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 78,
+          "chip_ev": 38.23331486006699,
+          "money_ev": null,
+          "fold_equity": 0.5637697072566508,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.3125,
+        "win": 0.3125,
+        "tie": 0.0,
+        "standard_error": 0.08324928557283298,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "0": "tag"
+      },
+      "fold_equity": 0.5637697072566508,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "fold",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "call",
+          "raise_to": null,
+          "chip_ev": 21.6875,
+          "money_ev": null,
+          "model": "showdown-equity proxy; no future betting"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 26.029869573423134,
+          "money_ev": null,
+          "fold_equity": 0.41809177918091,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 88,
+          "chip_ev": 13.809796936222247,
+          "money_ev": null,
+          "fold_equity": 0.41809177918091,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.40625,
+        "win": 0.40625,
+        "tie": 0.0,
+        "standard_error": 0.0882099653319905,
+        "samples": 32,
+        "attempts": 34
+      },
+      "pot_odds": 0.1282051282051282,
+      "profiles": {
+        "2": "tag",
+        "3": "tag"
+      },
+      "fold_equity": 0.41809177918091,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 136
+      },
+      "alternatives": [
+        {
+          "action": "fold",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "call",
+          "raise_to": null,
+          "chip_ev": 4.625,
+          "money_ev": null,
+          "model": "showdown-equity proxy; no future betting"
+        },
+        {
+          "action": "raise",
+          "raise_to": 80,
+          "chip_ev": 58.30351970519483,
+          "money_ev": null,
+          "fold_equity": 0.5353284401256682,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 136,
+          "chip_ev": 59.11669493497491,
+          "money_ev": null,
+          "fold_equity": 0.5353284401256682,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.328125,
+        "win": 0.3125,
+        "tie": 0.03125,
+        "standard_error": 0.08282248494277851,
+        "samples": 32,
+        "attempts": 34
+      },
+      "pot_odds": 0.29411764705882354,
+      "profiles": {
+        "2": "tag",
+        "3": "tag"
+      },
+      "fold_equity": 0.5353284401256682,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 136
+      },
+      "alternatives": [
+        {
+          "action": "fold",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "call",
+          "raise_to": null,
+          "chip_ev": 19.5,
+          "money_ev": null,
+          "model": "showdown-equity proxy; no future betting"
+        },
+        {
+          "action": "raise",
+          "raise_to": 80,
+          "chip_ev": 77.43214196421735,
+          "money_ev": null,
+          "fold_equity": 0.40819575981569284,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 136,
+          "chip_ev": 98.1452903706681,
+          "money_ev": null,
+          "fold_equity": 0.40819575981569284,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.4375,
+        "win": 0.4375,
+        "tie": 0.0,
+        "standard_error": 0.08909830562090465,
+        "samples": 32,
+        "attempts": 52
+      },
+      "pot_odds": 0.29411764705882354,
+      "profiles": {
+        "2": "tag",
+        "3": "tag",
+        "4": "tag"
+      },
+      "fold_equity": 0.40819575981569284,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 20
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 43.632244844100676,
+          "money_ev": null,
+          "fold_equity": 0.2917992108375285,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 138,
+          "chip_ev": -8.597563356631596,
+          "money_ev": null,
+          "fold_equity": 0.2917992108375285,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.21875,
+        "win": 0.1875,
+        "tie": 0.09375,
+        "standard_error": 0.06957592839357557,
+        "samples": 32,
+        "attempts": 33
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "2": "tag",
+        "7": "tag"
+      },
+      "fold_equity": 0.2917992108375285,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 20
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 147.33320216459572,
+          "money_ev": null,
+          "fold_equity": 0.5371061262768044,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 224,
+          "chip_ev": 108.97087237978589,
+          "money_ev": null,
+          "fold_equity": 0.5371061262768044,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.296875,
+        "win": 0.28125,
+        "tie": 0.03125,
+        "standard_error": 0.08050801089673243,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "0": "tag"
+      },
+      "fold_equity": 0.5371061262768044,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 20
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 117.91730394344026,
+          "money_ev": null,
+          "fold_equity": 0.25922256997208626,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 292,
+          "chip_ev": 48.65461423583033,
+          "money_ev": null,
+          "fold_equity": 0.25922256997208626,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.40625,
+        "win": 0.40625,
+        "tie": 0.0,
+        "standard_error": 0.0882099653319905,
+        "samples": 32,
+        "attempts": 39
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "4": "tag",
+        "5": "tag"
+      },
+      "fold_equity": 0.25922256997208626,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 108
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 87.73775885656727,
+          "money_ev": null,
+          "fold_equity": 0.5896254958292106,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 108,
+          "chip_ev": 89.99481862950661,
+          "money_ev": null,
+          "fold_equity": 0.5896254958292106,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.484375,
+        "win": 0.46875,
+        "tie": 0.03125,
+        "standard_error": 0.08834378583673975,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "5": "tag"
+      },
+      "fold_equity": 0.5896254958292106,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 20
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 93.93784471051552,
+          "money_ev": null,
+          "fold_equity": 0.5992687613001827,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 128,
+          "chip_ev": 83.11810126562047,
+          "money_ev": null,
+          "fold_equity": 0.5992687613001827,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.578125,
+        "win": 0.5,
+        "tie": 0.15625,
+        "standard_error": 0.08128682478153834,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "4": "tag"
+      },
+      "fold_equity": 0.5992687613001827,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 174
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 175.38602418439038,
+          "money_ev": null,
+          "fold_equity": 0.5775926295191224,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 174,
+          "chip_ev": 230.27258188624944,
+          "money_ev": null,
+          "fold_equity": 0.5775926295191224,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.921875,
+        "win": 0.90625,
+        "tie": 0.03125,
+        "standard_error": 0.04551107074640049,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "6": "tag"
+      },
+      "fold_equity": 0.5775926295191224,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 20
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 59.67484221579,
+          "money_ev": null,
+          "fold_equity": 0.2123495526947178,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 310,
+          "chip_ev": -140.19145878792534,
+          "money_ev": null,
+          "fold_equity": 0.2123495526947178,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.1875,
+        "win": 0.1875,
+        "tie": 0.0,
+        "standard_error": 0.0701021719786843,
+        "samples": 32,
+        "attempts": 40
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "3": "tag",
+        "6": "tag",
+        "7": "tag"
+      },
+      "fold_equity": 0.2123495526947178,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 20
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 49.70335397735177,
+          "money_ev": null,
+          "fold_equity": 0.42159705362097927,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 98,
+          "chip_ev": 27.145639068569956,
+          "money_ev": null,
+          "fold_equity": 0.42159705362097927,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.328125,
+        "win": 0.3125,
+        "tie": 0.03125,
+        "standard_error": 0.08282248494277851,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "0": "tag"
+      },
+      "fold_equity": 0.42159705362097927,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 118
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 99.06963800150129,
+          "money_ev": null,
+          "fold_equity": 0.44829546088164063,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 118,
+          "chip_ev": 115.96558951200106,
+          "money_ev": null,
+          "fold_equity": 0.44829546088164063,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.8125,
+        "win": 0.8125,
+        "tie": 0.0,
+        "standard_error": 0.0701021719786843,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "3": "tag"
+      },
+      "fold_equity": 0.44829546088164063,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 234.86983861852588,
+          "money_ev": null,
+          "fold_equity": 0.18617038415918075,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 984,
+          "chip_ev": -361.87072719675484,
+          "money_ev": null,
+          "fold_equity": 0.18617038415918075,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.234375,
+        "win": 0.21875,
+        "tie": 0.03125,
+        "standard_error": 0.07440752203021829,
+        "samples": 32,
+        "attempts": 36
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "7": "tag",
+        "8": "tag"
+      },
+      "fold_equity": 0.18617038415918075,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 194.33053612231382,
+          "money_ev": null,
+          "fold_equity": 0.2475140737693762,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 624,
+          "chip_ev": -118.13924474495272,
+          "money_ev": null,
+          "fold_equity": 0.2475140737693762,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.265625,
+        "win": 0.25,
+        "tie": 0.03125,
+        "standard_error": 0.07772072820517018,
+        "samples": 32,
+        "attempts": 37
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "0": "tag",
+        "6": "tag"
+      },
+      "fold_equity": 0.2475140737693762,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 145.12350242266734,
+          "money_ev": null,
+          "fold_equity": 0.5111965684321886,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 216,
+          "chip_ev": 123.61615143368365,
+          "money_ev": null,
+          "fold_equity": 0.5111965684321886,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.4375,
+        "win": 0.4375,
+        "tie": 0.0,
+        "standard_error": 0.08909830562090465,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "8": "tag"
+      },
+      "fold_equity": 0.5111965684321886,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 20
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 84.75219457198975,
+          "money_ev": null,
+          "fold_equity": 0.46457387875536904,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 178,
+          "chip_ev": 18.660532730855607,
+          "money_ev": null,
+          "fold_equity": 0.46457387875536904,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.359375,
+        "win": 0.34375,
+        "tie": 0.03125,
+        "standard_error": 0.08470291714803627,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "7": "tag"
+      },
+      "fold_equity": 0.46457387875536904,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 20
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 146.15220559802137,
+          "money_ev": null,
+          "fold_equity": 0.501700657919752,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 264,
+          "chip_ev": 62.56249096405976,
+          "money_ev": null,
+          "fold_equity": 0.501700657919752,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.203125,
+        "win": 0.1875,
+        "tie": 0.03125,
+        "standard_error": 0.07049427667800301,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "0": "tag"
+      },
+      "fold_equity": 0.501700657919752,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 418.4085551947975,
+          "money_ev": null,
+          "fold_equity": 0.5216223705105486,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 704,
+          "chip_ev": 173.06062847039513,
+          "money_ev": null,
+          "fold_equity": 0.5216223705105486,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 2216,
+          "chip_ev": -414.62628935739593,
+          "money_ev": null,
+          "fold_equity": 0.5216223705105486,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.34375,
+        "win": 0.34375,
+        "tie": 0.0,
+        "standard_error": 0.08530513305661303,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "6": "tag"
+      },
+      "fold_equity": 0.5216223705105486,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 154.898582588569,
+          "money_ev": null,
+          "fold_equity": 0.4522688740792827,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 316,
+          "chip_ev": 50.9666014451129,
+          "money_ev": null,
+          "fold_equity": 0.4522688740792827,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 2140,
+          "chip_ev": -788.3971158330164,
+          "money_ev": null,
+          "fold_equity": 0.4522688740792827,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.21875,
+        "win": 0.21875,
+        "tie": 0.0,
+        "standard_error": 0.07424858801742053,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "8": "tag"
+      },
+      "fold_equity": 0.4522688740792827,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 80
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 80,
+          "chip_ev": 821.9439221849858,
+          "money_ev": null,
+          "fold_equity": 0.35312131200545255,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 1888,
+          "chip_ev": -148.0911003808377,
+          "money_ev": null,
+          "fold_equity": 0.35312131200545255,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 2740,
+          "chip_ev": -613.116017212918,
+          "money_ev": null,
+          "fold_equity": 0.35312131200545255,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.28125,
+        "win": 0.25,
+        "tie": 0.0625,
+        "standard_error": 0.07756858307746223,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "8": "tag"
+      },
+      "fold_equity": 0.35312131200545255,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 20
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 107.60563458658582,
+          "money_ev": null,
+          "fold_equity": 0.006969434541689863,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 582,
+          "chip_ev": -293.5166494482303,
+          "money_ev": null,
+          "fold_equity": 0.006969434541689863,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.1875,
+        "win": 0.1875,
+        "tie": 0.0,
+        "standard_error": 0.0701021719786843,
+        "samples": 32,
+        "attempts": 36
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "5": "tag",
+        "6": "tag"
+      },
+      "fold_equity": 0.006969434541689863,
+      "icm_used": false,
+      "stage": "bubble",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 20
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 33.57283088273328,
+          "money_ev": null,
+          "fold_equity": 0.1453750808032232,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 228,
+          "chip_ev": -88.6385325624058,
+          "money_ev": null,
+          "fold_equity": 0.1453750808032232,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.09375,
+        "win": 0.09375,
+        "tie": 0.0,
+        "standard_error": 0.05235146037338219,
+        "samples": 32,
+        "attempts": 63
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "0": "tag",
+        "2": "tag",
+        "3": "tag",
+        "5": "tag"
+      },
+      "fold_equity": 0.1453750808032232,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 20
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 52.24181628266368,
+          "money_ev": null,
+          "fold_equity": 0.06552057728946564,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 718,
+          "chip_ev": -511.4244905035468,
+          "money_ev": null,
+          "fold_equity": 0.06552057728946564,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.09375,
+        "win": 0.09375,
+        "tie": 0.0,
+        "standard_error": 0.05235146037338219,
+        "samples": 32,
+        "attempts": 71
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "2": "tag",
+        "3": "tag",
+        "6": "tag",
+        "7": "tag"
+      },
+      "fold_equity": 0.06552057728946564,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 20
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 46.6788802706279,
+          "money_ev": null,
+          "fold_equity": 0.1700991843638467,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 372,
+          "chip_ev": -245.44620683329808,
+          "money_ev": null,
+          "fold_equity": 0.1700991843638467,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.0625,
+        "win": 0.0625,
+        "tie": 0.0,
+        "standard_error": 0.04347552147751577,
+        "samples": 32,
+        "attempts": 36
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "0": "tag",
+        "4": "tag"
+      },
+      "fold_equity": 0.1700991843638467,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 80
+      },
+      "alternatives": [
+        {
+          "action": "fold",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "call",
+          "raise_to": null,
+          "chip_ev": -20.625,
+          "money_ev": null,
+          "model": "showdown-equity proxy; no future betting"
+        },
+        {
+          "action": "raise",
+          "raise_to": 80,
+          "chip_ev": 40.47100226438819,
+          "money_ev": null,
+          "fold_equity": 0.18253182161270937,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 620,
+          "chip_ev": -400.96181406474875,
+          "money_ev": null,
+          "fold_equity": 0.18253182161270937,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.03125,
+        "win": 0.03125,
+        "tie": 0.0,
+        "standard_error": 0.03125,
+        "samples": 32,
+        "attempts": 40
+      },
+      "pot_odds": 0.06451612903225806,
+      "profiles": {
+        "0": "tag",
+        "4": "tag"
+      },
+      "fold_equity": 0.18253182161270937,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 36.07972069637846,
+          "money_ev": null,
+          "fold_equity": 0.14193977741861652,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 496,
+          "chip_ev": -355.19574080073244,
+          "money_ev": null,
+          "fold_equity": 0.14193977741861652,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.03125,
+        "win": 0.03125,
+        "tie": 0.0,
+        "standard_error": 0.03125,
+        "samples": 32,
+        "attempts": 35
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "0": "tag",
+        "2": "tag"
+      },
+      "fold_equity": 0.14193977741861652,
+      "icm_used": false,
+      "stage": "bubble",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 888.9170034179683,
+          "money_ev": null,
+          "fold_equity": 0.13801007686038608,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 1488,
+          "chip_ev": 335.8965933537098,
+          "money_ev": null,
+          "fold_equity": 0.13801007686038608,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 2216,
+          "chip_ev": 41.7425320823165,
+          "money_ev": null,
+          "fold_equity": 0.13801007686038608,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.484375,
+        "win": 0.46875,
+        "tie": 0.03125,
+        "standard_error": 0.08834378583673975,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "2": "tag"
+      },
+      "fold_equity": 0.13801007686038608,
+      "icm_used": false,
+      "stage": "bubble",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 20
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 116.20834606157337,
+          "money_ev": null,
+          "fold_equity": 0.4393574998227793,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 218,
+          "chip_ev": 53.766787604335406,
+          "money_ev": null,
+          "fold_equity": 0.4393574998227793,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.5,
+        "win": 0.5,
+        "tie": 0.0,
+        "standard_error": 0.08980265101338744,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "7": "tag"
+      },
+      "fold_equity": 0.4393574998227793,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 20
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 137.61073414224566,
+          "money_ev": null,
+          "fold_equity": 0.46882915927293106,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 304,
+          "chip_ev": -3.813502201336462,
+          "money_ev": null,
+          "fold_equity": 0.46882915927293106,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.03125,
+        "win": 0.03125,
+        "tie": 0.0,
+        "standard_error": 0.03125,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "0": "tag"
+      },
+      "fold_equity": 0.46882915927293106,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 379.63424003923467,
+          "money_ev": null,
+          "fold_equity": 0.492640200802051,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 784,
+          "chip_ev": 15.571874127256365,
+          "money_ev": null,
+          "fold_equity": 0.492640200802051,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 2176,
+          "chip_ev": -668.602815091178,
+          "money_ev": null,
+          "fold_equity": 0.492640200802051,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.140625,
+        "win": 0.125,
+        "tie": 0.03125,
+        "standard_error": 0.06038508397721645,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "6": "tag"
+      },
+      "fold_equity": 0.492640200802051,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 164.48308036809283,
+          "money_ev": null,
+          "fold_equity": 0.45024180556388915,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 396,
+          "chip_ev": -20.338752623897193,
+          "money_ev": null,
+          "fold_equity": 0.45024180556388915,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 2100,
+          "chip_ev": -927.8520920893071,
+          "money_ev": null,
+          "fold_equity": 0.45024180556388915,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0,
+        "win": 0.0,
+        "tie": 0.0,
+        "standard_error": 0.0,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "8": "tag"
+      },
+      "fold_equity": 0.45024180556388915,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 80
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 80,
+          "chip_ev": 804.0821074935611,
+          "money_ev": null,
+          "fold_equity": 0.35246335632147896,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 2048,
+          "chip_ev": -345.57873231742315,
+          "money_ev": null,
+          "fold_equity": 0.35246335632147896,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 2660,
+          "chip_ev": -704.7187433176227,
+          "money_ev": null,
+          "fold_equity": 0.35246335632147896,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.09375,
+        "win": 0.09375,
+        "tie": 0.0,
+        "standard_error": 0.05235146037338219,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "8": "tag"
+      },
+      "fold_equity": 0.35246335632147896,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 240
+      },
+      "alternatives": [
+        {
+          "action": "fold",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "call",
+          "raise_to": null,
+          "chip_ev": -6.0,
+          "money_ev": null,
+          "model": "showdown-equity proxy; no future betting"
+        },
+        {
+          "action": "raise",
+          "raise_to": 240,
+          "chip_ev": 773.0612342341544,
+          "money_ev": null,
+          "fold_equity": 0.3397880848653503,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 2448,
+          "chip_ev": -593.5774300945706,
+          "money_ev": null,
+          "fold_equity": 0.3397880848653503,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 2660,
+          "chip_ev": -724.7945482275821,
+          "money_ev": null,
+          "fold_equity": 0.3397880848653503,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.03125,
+        "win": 0.03125,
+        "tie": 0.0,
+        "standard_error": 0.03125,
+        "samples": 32,
+        "attempts": 32
+      },
+      "pot_odds": 0.033783783783783786,
+      "profiles": {
+        "8": "tag"
+      },
+      "fold_equity": 0.3397880848653503,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "check",
+        "raise_to": null
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": -12.57592814636715,
+          "money_ev": null,
+          "fold_equity": 0.005719623924216372,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 562,
+          "chip_ev": -551.4758919794418,
+          "money_ev": null,
+          "fold_equity": 0.005719623924216372,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0,
+        "win": 0.0,
+        "tie": 0.0,
+        "standard_error": 0.0,
+        "samples": 32,
+        "attempts": 38
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "5": "tag",
+        "6": "tag"
+      },
+      "fold_equity": 0.005719623924216372,
+      "icm_used": false,
+      "stage": "bubble",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "fold",
+        "raise_to": null
+      },
+      "alternatives": [
+        {
+          "action": "fold",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "call",
+          "raise_to": null,
+          "chip_ev": -20,
+          "money_ev": null,
+          "model": "showdown-equity proxy; no future betting"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": -32.21166869843492,
+          "money_ev": null,
+          "fold_equity": 0.005820875412231001,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 562,
+          "chip_ev": -551.1731717332503,
+          "money_ev": null,
+          "fold_equity": 0.005820875412231001,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0,
+        "win": 0.0,
+        "tie": 0.0,
+        "standard_error": 0.0,
+        "samples": 32,
+        "attempts": 43
+      },
+      "pot_odds": 0.015174506828528073,
+      "profiles": {
+        "5": "tag",
+        "6": "tag"
+      },
+      "fold_equity": 0.005820875412231001,
+      "icm_used": false,
+      "stage": "bubble",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 20
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 23.62205083313593,
+          "money_ev": null,
+          "fold_equity": 0.12535072078487336,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 328,
+          "chip_ev": -245.76992716512305,
+          "money_ev": null,
+          "fold_equity": 0.12535072078487336,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0,
+        "win": 0.0,
+        "tie": 0.0,
+        "standard_error": 0.0,
+        "samples": 32,
+        "attempts": 80
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "0": "tag",
+        "2": "tag",
+        "3": "tag",
+        "5": "tag"
+      },
+      "fold_equity": 0.12535072078487336,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 20
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 17.456343232567463,
+          "money_ev": null,
+          "fold_equity": 0.04469730696010437,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 716,
+          "chip_ev": -647.4343311232,
+          "money_ev": null,
+          "fold_equity": 0.04469730696010437,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.03125,
+        "win": 0.03125,
+        "tie": 0.0,
+        "standard_error": 0.03125,
+        "samples": 32,
+        "attempts": 75
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "2": "tag",
+        "3": "tag",
+        "6": "tag",
+        "7": "tag"
+      },
+      "fold_equity": 0.04469730696010437,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 20
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 20,
+          "chip_ev": 49.03749966180826,
+          "money_ev": null,
+          "fold_equity": 0.1761160705658374,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 372,
+          "chip_ev": -240.969643499017,
+          "money_ev": null,
+          "fold_equity": 0.1761160705658374,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0,
+        "win": 0.0,
+        "tie": 0.0,
+        "standard_error": 0.0,
+        "samples": 32,
+        "attempts": 36
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "0": "tag",
+        "4": "tag"
+      },
+      "fold_equity": 0.1761160705658374,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    },
+    {
+      "decision": {
+        "action": "raise",
+        "raise_to": 40
+      },
+      "alternatives": [
+        {
+          "action": "check",
+          "raise_to": null,
+          "chip_ev": 0.0,
+          "money_ev": null,
+          "model": "reference; future play omitted"
+        },
+        {
+          "action": "raise",
+          "raise_to": 40,
+          "chip_ev": 101.27362072119742,
+          "money_ev": null,
+          "fold_equity": 0.18112002656563772,
+          "model": "all-fold/all-continue chip-EV proxy"
+        },
+        {
+          "action": "raise",
+          "raise_to": 740,
+          "chip_ev": -471.94236068285613,
+          "money_ev": null,
+          "fold_equity": 0.18112002656563772,
+          "model": "all-fold/all-continue chip-EV proxy"
+        }
+      ],
+      "metric": "chip_ev",
+      "equity": {
+        "equity": 0.03125,
+        "win": 0.03125,
+        "tie": 0.0,
+        "standard_error": 0.03125,
+        "samples": 32,
+        "attempts": 35
+      },
+      "pot_odds": 0.0,
+      "profiles": {
+        "0": "tag",
+        "4": "tag"
+      },
+      "fold_equity": 0.18112002656563772,
+      "icm_used": false,
+      "stage": "early",
+      "limitation": "Estimated ranges/response probabilities; finite-sample and model uncertainty."
+    }
+  ],
+  "cumulative_profile": [
+    {
+      "function": "('/workspace/pok/scripts/profile_v05.py', 51, 'workload')",
+      "calls": 1,
+      "seconds": 6.500245947000001
+    },
+    {
+      "function": "('/workspace/pok/poker_ai/advanced.py', 120, 'decide')",
+      "calls": 48,
+      "seconds": 6.498469906
+    },
+    {
+      "function": "('/workspace/pok/poker_ai/advanced.py', 46, 'evaluate')",
+      "calls": 48,
+      "seconds": 6.485219681
+    },
+    {
+      "function": "('/workspace/pok/poker_ai/equity.py', 81, 'weighted_equity')",
+      "calls": 96,
+      "seconds": 5.444143058000001
+    },
+    {
+      "function": "('/workspace/pok/poker_ai/ranges.py', 101, 'combos')",
+      "calls": 327,
+      "seconds": 5.030727839000001
+    },
+    {
+      "function": "('/workspace/pok/poker_ai/cards.py', 51, 'evaluate_best')",
+      "calls": 50674,
+      "seconds": 3.1024342540000003
+    },
+    {
+      "function": "('/workspace/pok/poker_ai/ranges.py', 69, 'board_strength')",
+      "calls": 40626,
+      "seconds": 2.546213029
+    },
+    {
+      "function": "('~', 0, '<built-in method builtins.next>')",
+      "calls": 108599,
+      "seconds": 1.2784620260000001
+    },
+    {
+      "function": "('~', 0, '<built-in method builtins.sum>')",
+      "calls": 202880,
+      "seconds": 0.913671556
+    },
+    {
+      "function": "('/workspace/pok/poker_ai/cards.py', 58, '<genexpr>')",
+      "calls": 51222,
+      "seconds": 0.8084787720000001
+    },
+    {
+      "function": "('/workspace/pok/poker_ai/cards.py', 79, 'evaluate_seven')",
+      "calls": 10048,
+      "seconds": 0.684101254
+    },
+    {
+      "function": "('/workspace/pok/poker_ai/cards.py', 17, '_straight_high')",
+      "calls": 49881,
+      "seconds": 0.548605075
+    },
+    {
+      "function": "('/workspace/pok/poker_ai/cards.py', 11, '_validate')",
+      "calls": 51142,
+      "seconds": 0.547998665
+    },
+    {
+      "function": "('~', 0, '<built-in method builtins.any>')",
+      "calls": 51578,
+      "seconds": 0.40461949500000005
+    },
+    {
+      "function": "('/workspace/pok/poker_ai/cards.py', 21, '<genexpr>')",
+      "calls": 50791,
+      "seconds": 0.373487369
+    },
+    {
+      "function": "('/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/collections/__init__.py', 595, '__init__')",
+      "calls": 50674,
+      "seconds": 0.322915654
+    },
+    {
+      "function": "('/workspace/pok/poker_ai/cards.py', 59, '<genexpr>')",
+      "calls": 1423341,
+      "seconds": 0.30356025600000003
+    },
+    {
+      "function": "('/workspace/pok/poker_ai/cards.py', 14, '<genexpr>')",
+      "calls": 359249,
+      "seconds": 0.261136678
+    },
+    {
+      "function": "('/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/collections/__init__.py', 669, 'update')",
+      "calls": 50674,
+      "seconds": 0.21189665000000002
+    },
+    {
+      "function": "('~', 0, \"<method 'intersection' of 'set' objects>\")",
+      "calls": 433602,
+      "seconds": 0.206308769
+    }
+  ]
+}
