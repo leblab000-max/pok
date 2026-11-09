@@ -1,81 +1,112 @@
-# Poker AI — offline research MVP
+# Poker AI v0.4 — offline tournament research
 
-Python 3.12, standard library only. No platform connections, paid APIs or external services.
+Python **3.12**, standard library only. No poker-room connections or paid APIs.
+This is an auditable research agent, not a proven profitable or GTO strategy.
 
-## Run
-
-From the repository root:
+## Quick start
 
 ```bash
-python3.12 -m poker_ai --strategy math --seed 42 --tournaments 1
+git clone -b dev/poker-simulator-v03 https://github.com/leblab000-max/pok.git
+cd pok
+python3.12 -m poker_ai --strategy advanced --samples 64 --seed 42 --tournaments 1
 ```
 
-This plays a 9-seat tournament, prints a JSON report and commits completed results to
-`results.sqlite`. Available hero strategies: `math`, `call`, `fold`. The eight opponents
-alternate calling and conservative baselines. Hero seat rotates with seed.
+A complete 9-seat tournament runs, prints analytics and saves `results.sqlite`.
+Old `math`, `call`, `fold` policies remain available. Rerunning the exact command
+skips completed results. A changed source fingerprint creates a separate experiment.
+
+## Reproduce v0.4 evaluation
 
 ```bash
 python3.12 -m unittest discover -s tests -v
 PYTHONPATH=. python3.12 scripts/stress.py
-python3.12 -m poker_ai --strategy math --tournaments 1000 --seed 1 > report.json
-python3.12 -m poker_ai --strategy call --tournaments 1000 --seed 1 > baseline.json
-PYTHONPATH=. python3.12 scripts/compare.py --count 100 > comparison.json
+python3.12 -m poker_ai.benchmark --count 9 --samples 32 --seconds 480 \
+  --db v04-benchmark.sqlite --report reports/v04/BENCHMARK.md \
+  --export reports/v04/results.json
+python3.12 -m poker_ai.kuhn --iterations 50000 --seed 1
 ```
 
-Large Monte Carlo experiments can take hours; reduce `--samples` for smoke tests.
-Identical configuration and seed reuse saved results. Change `--db` for a clean
-experiment. After a crash rerun the exact command: completed tournaments are skipped,
-the interrupted tournament restarts deterministically. Do not run concurrent writers
-for the same seed/config. Archive the DB with the git commit used for the experiment.
+Benchmark total is `count × 4 heroes × 3 opponent profiles`: 108 tournaments for
+nine seeds, rotating every hero through all nine seats. A time cap can leave a
+partial experiment; the status JSON reports completion. Rerun the same command
+until all requested tournaments are saved. Latency changes with hardware; seeded
+actions/results are reproducible. The supplied results are exploratory, not proof
+of superiority. See [measured report](reports/v04/BENCHMARK.md),
+[decision review](reports/v04/BENCHMARK.review.md), and
+[raw results](reports/v04/results.json).
 
-## Rules and architecture
+Training and test seeds are explicitly separated:
 
-`engine.py` handles 2–9 funded seats, clockwise button/blinds, per-player ante,
-burn cards, all four streets, action order, showdown and elimination. `betting.py`
-checks minimum raise and cumulative short-all-in reopening. Strategy decisions use
-`raise` with a **street target total** for both opening bets and raises; choosing the
-maximum target is all-in. Short all-in calls use `call`. The low-level betting API
-also accepts `bet` and `all-in`. Every decision is validated before execution.
-
-Unmatched excess returns to its contributor; `pots.py` settles side pots. Engine odd
-chips follow live seat order left of the button (the low-level pot API alone uses
-numeric seat order). Chips are checked after every action and settlement. Eliminated
-seats are removed, and the next funded seat clockwise gets the button. This is a
-moving-button simulation, not the dead-button convention used by some rooms.
-Simultaneous bust-outs rank by pre-hand stack, then deterministic seat order.
-Blinds double every ten hands; the hand cap raises an error rather than inventing a winner.
-
-`strategy.py` defines the observation/decision boundary suitable for future CFR/MCCFR
-adapters. MathematicalBaseline uses seeded Monte Carlo equity, pot odds and explicit
-small heuristic adjustments for stack depth, position, recent raises and late-tournament
-risk. Uniform opponent ranges are used by default. `equity.py` also supports explicit
-combo ranges and exact ICM as independent research utilities. No GTO claim is made.
-
-Reports contain tournaments, hands, mean finish, ITM, ROI, approximate normal 95% profit
-interval, chip delta per hand, position/stack-depth breakdown and maximum cumulative
-profit drawdown in seed order. Default payouts are 50/30/20% of nine buy-ins;
-fees are excluded from the prize pool. `--buy-in` and `--fee` configure entry costs.
-Chip delta is an observed outcome estimate, not counterfactual action EV.
-SQLite stores each tournament's places, final stacks and telemetry, not private cards.
-
-## Linux VPS / budget
-
-Use an existing Linux host with Python 3.12. Clone this branch, change to its directory,
-run the commands above. No installation is needed. A daily cron example:
-
-```cron
-17 3 * * * cd /opt/pok && /usr/bin/flock -n /tmp/pok.lock /usr/bin/python3.12 -m poker_ai --strategy math --tournaments 100 --seed 1 >> /opt/pok/daily.log 2>&1
+```bash
+python3.12 -m poker_ai.benchmark --split train --seed 100 --count 9 --samples 32 \
+  --seconds 300 --db training.sqlite --report training.md
 ```
 
-This resumes a fixed experiment and stops doing new work once all seeds are complete.
-Choose a new explicit seed window for the next experiment; preserve holdout seeds
->=1000000 for evaluation. Back up SQLite only when the process is stopped, or use
-SQLite's online backup API. Monitor disk size and rotate logs. No server was rented
-and no money was spent. Hosting price must be checked by the owner against 1000 RUB/month.
-GitHub Actions includes daily checks/experiments and 14-day artifacts; scheduled runs
-use the default branch's workflow, so this dev-only change **does not enable the new
-schedule until separately authorized integration**. Manual workflow runs on this branch
-are available. Private repository Actions quotas must be monitored; billing is not enabled here.
+Test seeds start at 1000000. Do not tune against an already viewed test window.
+The v0.3 `scripts/compare.py` remains a legacy two-policy smoke tool; use the new
+benchmark for v0.4 evidence. No candidate is automatically promoted.
 
-See [RESEARCH_STATUS.md](RESEARCH_STATUS.md) for measured checks and limitations,
-and [NEXT_STEPS.md](NEXT_STEPS.md) for remaining research work.
+## What is implemented
+
+- 2–9-seat Hold'em, four streets, ante/blinds, legal action order, minimum raises,
+  cumulative short-all-in reopening, all-in calls, side pots, showdown and elimination.
+- Three old policies plus `AdvancedTournamentStrategy`: weighted opponent ranges,
+  Monte Carlo equity, pot odds, position/depth/history and estimated fold equity.
+- Exact ICM branch values for terminal heads-up calls and a restricted short-stack
+  preflop shove/fold model; chip EV stays separate from money EV.
+- 169 weighted classes, physical-combo blockers, JSON ranges, TAG/LAG/Passive opponents
+  and simple cross-hand public-action adaptation.
+- SQLite checkpoints, source identity, Markdown and raw result export, sampling
+  uncertainty, tournament-level confidence intervals and measured decision latency.
+- Pre-decision traces and model-relative alternative review; chance-sampled CFR on
+  Kuhn Poker with exact best-response exploitability checks.
+
+See [model assumptions](docs/V04_DESIGN.md) before interpreting any EV estimates.
+
+## Rules and data conventions
+
+Strategy `raise_to` is the **street target total**, including an opening bet; the
+maximum target is all-in. `call` also covers a short all-in call. The low-level
+betting API accepts `bet` and `all-in` aliases. Folded players stay in public tournament
+stack observations but are removed from showdown opponents. Only hero private cards
+are visible to a strategy. Invariants check total chips after each action and settlement.
+
+Odd chips go clockwise left of button. The tournament uses a moving button, not a
+room-specific dead-button rule. Simultaneous eliminations rank by pre-hand stack,
+then deterministic seat order. Blinds double every ten hands; a hand cap raises an
+error instead of inventing a winner. No authoritative room rules certification is implied.
+
+Default prize pool is nine buy-ins paid 50/30/20%; entry fee is separate. Benchmark
+accepts `--buy-in`, `--fee`, `--payouts .5,.3,.2`. Reports include chip outcome per hand,
+mean place, ITM, ROI, standard errors/CIs, opponent breakdown and mean/P95 latency.
+The single-tournament CLI also reports position/depth breakdown and seed-order drawdown.
+Trace tables contain offline hole cards; treat shared experimental databases accordingly.
+
+## Linux VPS and resource budget
+
+Use an existing Linux host with Python 3.12; installation is unnecessary. Example
+bounded run (no server was rented, no paid resources were enabled):
+
+```bash
+cd /opt/pok
+/usr/bin/flock -n /tmp/pok-benchmark.lock python3.12 -m poker_ai.benchmark \
+  --split train --seed 100 --count 9 --samples 32 --seconds 240 \
+  --db /opt/pok/train.sqlite --report /opt/pok/training.md
+```
+
+A cron entry may run that fixed command daily; it resumes the same experiment and
+stops generating new tournaments once complete. Set a new explicit seed window for
+a new study. Do not allow overlapping writers. Back up SQLite when stopped, or use
+SQLite's online backup API. Monitor trace/database size and rotate logs; traces are
+not automatically deleted. Use `timeout 300s` outside the command if a strict process
+limit is needed: the uncommitted tournament will restart on the next run.
+
+GitHub Actions runs tests, the 10000-hand stress check and a small benchmark on pushes.
+Scheduled/manual jobs run a bounded larger benchmark and upload SQLite/reports with
+14-day retention. GitHub schedules use the default branch: these dev-branch changes
+do not activate the new schedule on `main`. Actions quotas and VPS prices must be
+checked against the 1000 RUB/month ceiling; no billing is enabled by this repository.
+No claim of a continuously running service is made.
+
+[Research status](RESEARCH_STATUS.md) records checks and limitations.
+[Next steps](NEXT_STEPS.md) lists the remaining work.

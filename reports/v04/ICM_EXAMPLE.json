@@ -1,0 +1,96 @@
+{
+  "observation": {
+    "seat": 0,
+    "hole_cards": [
+      "As",
+      "Kh"
+    ],
+    "board": [],
+    "stack": 100,
+    "pot": 100,
+    "to_call": 100,
+    "minimum_raise_to": null,
+    "maximum_raise_to": null,
+    "players_remaining": 2,
+    "position": 0,
+    "big_blind": 20,
+    "effective_stack": 100,
+    "history": [],
+    "tournament_players": 4,
+    "stacks": [
+      [
+        0,
+        100
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        20
+      ],
+      [
+        3,
+        100
+      ]
+    ],
+    "contributions": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        100
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "street_contributions": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        100
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "folded": [
+      2,
+      3
+    ],
+    "payouts": [
+      50,
+      30,
+      20
+    ],
+    "public_actions": [],
+    "hand_id": 0
+  },
+  "assumed_equity": 0.55,
+  "result": {
+    "chip_ev": 10.000000000000014,
+    "money_ev": -7.388257575757578,
+    "fold_money": 30.492424242424246,
+    "win_money": 42.00757575757576,
+    "lose_money": 0.0,
+    "tie_money": 30.492424242424246
+  },
+  "note": "Synthetic controlled spot, not measured equity of AsKh; proves utility effect without sample noise."
+}
