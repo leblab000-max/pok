@@ -8,6 +8,7 @@ class BettingRound:
     contributions: dict[int, int] = field(default_factory=dict)
     folded: set[int] = field(default_factory=set)
     acted: set[int] = field(default_factory=set)
+    faced: dict[int, int] = field(default_factory=dict)
     last_full_raise: int = 0
     current_bet: int = 0
 
@@ -34,29 +35,39 @@ class BettingRound:
         self._active(seat)
         return min(self.stacks[seat], self.current_bet - self.contributions[seat])
 
+    def can_raise(self, seat):
+        return seat not in self.acted or self.current_bet - self.faced.get(seat, 0) >= self.last_full_raise
+
     def act(self, seat, action, amount=None):
         """Raise amount is target total on this street. Caller enforces action order."""
         self._active(seat)
         owed = self.current_bet - self.contributions[seat]
+        if action == 'bet': action = 'raise'
+        if action == 'all-in':
+            target = self.contributions[seat] + self.stacks[seat]
+            action, amount = ('raise', target) if target > self.current_bet else ('call', None)
         if action == 'fold':
             self.folded.add(seat)
             self.acted.add(seat)
+            self.faced[seat] = self.current_bet
             return
         if action == 'check':
             if owed:
                 raise ValueError('Cannot check facing a bet')
             self.acted.add(seat)
+            self.faced[seat] = self.current_bet
             return
         if action == 'call':
             paid = min(owed, self.stacks[seat])
             self.stacks[seat] -= paid
             self.contributions[seat] += paid
             self.acted.add(seat)
+            self.faced[seat] = self.current_bet
             return
         if action != 'raise' or type(amount) is not int:
             raise ValueError('Unknown action or raise target')
         max_total = self.contributions[seat] + self.stacks[seat]
-        if seat in self.acted:
+        if not self.can_raise(seat):
             raise ValueError('Betting not reopened for seat')
         if amount <= self.current_bet or amount > max_total:
             raise ValueError('Raise target outside legal bounds')
@@ -72,6 +83,8 @@ class BettingRound:
             self.acted = {seat}
         else:
             self.acted.add(seat)
+
+        self.faced[seat] = self.current_bet
 
     def complete(self):
         live = [s for s in self.stacks if s not in self.folded]

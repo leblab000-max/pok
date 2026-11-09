@@ -19,6 +19,12 @@ class Observation:
     maximum_raise_to: int | None
     players_remaining: int
 
+    position: int = 0
+    big_blind: int = 20
+    effective_stack: int = 0
+    history: tuple = ()
+    tournament_players: int = 9
+
     def __post_init__(self):
         from .cards import RANKS, SUITS
         cards = (*self.hole_cards, *self.board)
@@ -62,3 +68,31 @@ class ConservativeBaseline:
         decision = Decision("check" if observation.to_call == 0 else "fold")
         validate_decision(observation, decision)
         return decision
+
+class CallingBaseline:
+    def decide(self, observation: Observation) -> Decision:
+        return Decision('call' if observation.to_call else 'check')
+
+class MathematicalBaseline:
+    """Reproducible heuristic; Monte Carlo uniform ranges, not GTO or trained AI."""
+    def __init__(self, seed: int = 1, samples: int = 24):
+        import random
+        self.rng = random.Random(seed)
+        self.samples = samples
+
+    def decide(self, observation: Observation) -> Decision:
+        from .equity import equity
+        o = observation
+        strength = equity(o.hole_cards, o.board, max(1, o.players_remaining-1),
+                          self.samples, self.rng.randrange(2**32))
+        odds = o.to_call / max(1, o.pot + o.to_call)
+        # Conservative tournament risk proxy, not an ICM decision calculation.
+        risk = .03 if o.tournament_players <= 4 else .01
+        # Small, explicit heuristic adjustments; require independent evaluation.
+        risk += .02 if o.effective_stack > 30*o.big_blind else 0
+        risk += .01 * sum(a[2] == 'raise' for a in o.history[-4:])
+        risk -= .01 if o.position >= o.players_remaining-2 else 0
+        if o.minimum_raise_to is not None and strength > max(.52, 1/o.players_remaining+.18):
+            return Decision('raise', o.minimum_raise_to)
+        if not o.to_call: return Decision('check')
+        return Decision('call' if strength > odds+risk else 'fold')

@@ -18,3 +18,16 @@ jobs:
           python-version: '3.12'
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
+      - name: Invariant stress test
+        run: PYTHONPATH=. python scripts/stress.py
+      - name: Scheduled reproducible experiment
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: python -m poker_ai --strategy math --samples 8 --tournaments 20 > report.json
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        with:
+          name: simulation-results
+          path: |
+            report.json
+            results.sqlite
+          retention-days: 14
