@@ -1,86 +1,93 @@
-# Poker AI v0.4 research status — 2026-11-09
+# Poker AI v0.5 research status — 2026-11-09
 
-## Audit and scope
+## Outcome
 
-Started from dev branch cc0bec9 (v0.3 core implementation 678e2f4). All 42 existing
-unit/integration tests passed before changes. No external simulator archive was
-assumed available. Work remains on `dev/poker-simulator-v03`; `main` is untouched.
-This release is an offline research implementation, not a demonstrated strong,
-profitable, GTO or production-money poker agent.
+v0.5 implements a public-only opponent model, explicit mixed-response action EV,
+independent decision screening and reproducible comparisons. **Adaptive is not a
+proven stronger replacement for Advanced.** Mathematical significantly outperformed
+Adaptive within the synthetic LAG and Passive populations in this study. Keep the
+new policy experimental; no autonomous promotion or profitability claim is made.
 
-## Implemented
+Work is on dev/poker-simulator-v03; main is unchanged. Implementation c266b72;
+checkpoint/reproduction tooling 5a46952. The implementation/tooling CI passed:
+https://github.com/leblab000-max/pok/actions/runs/42644234787
 
-- All 169 weighted starting classes, combo expansion and blockers; serializable
-  action-conditioned ranges with position/depth/board context and TAG/LAG/Passive
-  likelihoods. Initial dealt-card priors are uniform; voluntary actions select ranges.
-- Joint rejection Monte Carlo equity against multiple weighted ranges, fractional
-  tie equity, win/tie frequency, standard error and bounded incompatible-range failure.
-- Exact subset-DP ICM, validated against permutation enumeration and closed forms.
-  Actual money-EV decisions for heads-up terminal calls and a restricted short-stack
-  preflop shove/fold response model; chip EV is recorded independently.
-- AdvancedTournamentStrategy, public-action opponent adaptation, old policies preserved.
-  Public observation now includes full tournament stacks, commitments, payouts and
-  detailed public actions; opponents' private cards remain unavailable.
-- Four-hero/three-profile benchmark, shared seeds, absolute-seat rotation, train/test
-  split, wall-clock budget, source fingerprint, SQLite resume and atomic decision traces.
-- Markdown reports with chip outcomes, place, ITM, ROI, uncertainty, profile breakdown,
-  paired comparisons, mean/P95 decision latency; raw results exported for audit.
-- Model-relative alternative analysis and highest-swing decision report, without
-  treating realized outcomes as error labels. Exact ICM values include actual ties.
-- Chance-sampled CFR Kuhn experiment with exact best-response exploitability evaluator.
-- Python 3.12 CLI, Linux instructions and bounded GitHub Actions workflow.
+## Mathematical audit and implementation
 
-## Measured local checks
+See docs/V05_AUDIT.md for defects, reproducing tests and assumptions. Corrections in
+Adaptive include opportunity-based fold statistics, bet/raise distinction,
+size/board-conditioned responses, mixed multiway fold/call subsets, exact side pots
+and unmatched returns, eligible pot odds, nonzero check realization, and hero-stack
+shove eligibility. Shared fixes cover clockwise odd chips in ICM branches, numeric
+range underflow and zero-mass CDF boundaries. Forced checks/calls no longer apply
+inappropriate range narrowing in the Adaptive model. Advanced's v0.4 decision model
+is preserved as a reference, with exact-output shared optimizations.
 
-- Python 3.12.14: **72 tests passed**, including preexisting tests.
-- **10000 randomized hands** with seed 20261109 passed chip conservation and legal
-  decision validation after the v0.4 engine/evaluator changes.
-- Direct 5–7-card evaluator checked against independent combinatorial five-card
-  evaluation for 1400 random cases plus fixed category tests.
-- **108 completed final-series tournaments**, 9 seeds per hero/profile with full
-  hero seat rotation. See reports/v04/BENCHMARK.md and results.json. Source SHA256
-  is recorded in those files; historical pilot configurations are retained in SQLite.
-- Final-series resume produced byte-identical raw results, benchmark and decision
-  review files; no completed tournaments were repeated. SQLite integrity check passed.
-- Single-tournament `advanced` CLI and resume checked. Tiny benchmark time budget
-  returned an explicit incomplete status and valid empty reports.
-- Synthetic bubble fixture with 55% assumed win probability: call chip EV **+10**,
-  money EV **-7.3883** in payout units; advanced folds with ICM and calls in chip-only
-  mode. This is a controlled utility test, not a claim about AsKh's measured equity.
-- Kuhn, seed 1, 50000 iterations: player-zero value **-0.0555794**, theoretical
-  **-1/18**, absolute value error **0.00002387**, exploitability **0.0042346**.
-  Exploitability at 100/1000/10000 iterations: .11687/.01837/.00622.
-- compileall and git diff --check passed. Remote CI is checked separately after push.
+OpponentModel tracks smoothed VPIP/PFR per hand, postflop aggression factor,
+fold-to-raise and eligible 3-bet opportunities, counts and approximate uncertainty.
+It refuses adaptation before 30 hands and freezes style before each hand. No hidden
+opponent cards or sampled future runout are used as real playing information.
+Calibration uses 90 training tournaments; validation uses 30 separate training-validation
+tournaments. Calibration improves LAG/Passive classification Brier scores but worsens
+TAG: centroid calibration is not universally beneficial or calibrated fold equity.
 
-## Comparative finding
+DecisionAnalyzer records public observations, actions, larger-sample independent
+alternative estimates, paired uncertainty and potential regret groups. It never
+uses realized hand winnings as an error label. Audits share structural model limits;
+low model regret does not validate the policy.
 
-Final-series aggregate mean decision time: mathematical 3.451 ms, advanced 66.190 ms
-(P95 advanced 119.719 ms) on this cloud x86_64 environment. Other CPU work ran in
-this environment; these are measured wall times, not isolated hardware guarantees.
+## Verified checks
 
-Advanced ROI: TAG +127.3%, LAG -63.6%, Passive +63.6%. Each has only nine tournaments;
-these toy populations and exploratory normal intervals do **not** establish real-world
-profitability or general superiority. All positive-superiority gates failed their
-minimum sample requirement. Advanced was particularly weak against LAG, and the
-fold-only policy surviving that artificial population illustrates benchmark bias.
+- Python 3.12: **110 unit/integration tests passed** locally and implementation CI.
+- **10000 randomized hands**, seed 20261109: chip/decision invariants passed.
+- **1296 final holdout tournaments**: 108 per policy/profile; each hero seat 12 times.
+- Source SHA256: `6bbf57dcb9de8961b9ef205605e41b450ec096d7ff8c1ab7a670cf9ebc805f62`.
+- Chip totals, finish permutations, fee/payout arithmetic and unique result keys
+  checked independently from exported results. SQLite integrity/foreign-key checks pass.
+- **3410 independent audits**, **22210 stored decision traces** for the final configuration.
+- Resume skips completed results; raw results and generated benchmark/decision reports
+  were byte-identical after rerun. Historical incomplete configurations and shard
+  source databases are preserved; only final identity is reported.
+- Adaptive single-tournament CLI plus exact resume checked. Checkpoint merge tested
+  for duplicate avoidance and trace foreign-key remapping.
+- compileall and git diff --check pass. No packages, paid services or servers purchased.
 
-## Main weaknesses
+## Performance
 
-- Hand/action likelihoods and opponent fold probabilities are heuristic and uncalibrated;
-  sizing, draws and uncertainty are incompletely modeled. Folded ranges' card-removal
-  information is not propagated to live opponents.
-- Multiway raise EV omits mixed responses, future betting and realistic realization.
-  Short-stack shove/fold omits nonterminal flat calls; response probabilities are not
-  solved. Exact ICM cannot repair an incorrect response tree.
-- 32 equity samples per evaluation can select noisy actions. A zero observed equity
-  sample is not proof of zero true equity. Decision-model regret is not ground truth.
-- No automatic training/promotion of Hold'em policies; chance-sampled CFR only solves
-  the small Kuhn experiment. No full NLHE CFR, platform adapter or continuous service.
-- Normal CIs and the comparison gate are pilot screening tools, not confirmatory
-  statistical evidence; repeated testing needs fresh holdouts and power analysis.
-- Moving-button and simultaneous-elimination conventions may differ from specific
-  tournament rules. Independent rule review remains appropriate.
+Same 48 frozen public states, 32 equity samples, 3 timing passes:
+Advanced before mean/P95 **79.272/213.075 ms**, after
+**23.599/49.070 ms**. Mean reduction **70.2%**;
+all numeric diagnostics identical. Final profiling ran after simulation workers ended.
+Peak RSS of that profiling process: 39708 KiB (not a whole-system memory bound).
+Live-tournament latencies reflect concurrent compute load; see SUMMARY.md and
+BENCHMARK.md. Samples were not reduced to obtain the optimization.
 
-The v0.4 implementation and evidence are reproducible; stronger poker intelligence
-requires correcting/calibrating the response model before increasing training scale.
-See NEXT_STEPS.md and docs/V04_DESIGN.md.
+## Final interpretation and LAG
+
+Adaptive/Advanced ROI: TAG +125.8/+182.6%, LAG -15.9/-23.5%, Passive -34.1/-6.1%.
+Against LAG, Adaptive minus Advanced +7.6 pp has adjusted bootstrap interval
+[-34.1,+49.2] pp: no supported improvement. Adaptive minus Mathematical is
+-88.6 pp [-136.4,-35.6], supporting worse performance within that artificial population.
+The study does not establish general poker strength or real-money profitability.
+
+Only 2.1% of Adaptive decisions versus LAG had any opponent ready for adaptation;
+only 0.9% of recorded opponent contexts met the evidence threshold. Observed snapshot
+wager responses were raises 62.8% of the time, a branch missing from the EV model.
+The auditor flagged zero of 159 Adaptive decisions against LAG, illustrating why
+agreement with the same incomplete model cannot prove good play. See reports/v05/LAG.md,
+LAG_FINDINGS.md, LAG_DECISIONS.md and OPPONENT_DIAGNOSTICS.md.
+
+## Known limits / next priority
+
+Response models omit re-raises, future betting, explicit draw likelihoods and folded-card
+posterior inference. Public-rate centroids are heuristic profile calibration, not a
+solved/generative opponent model. Audits condition on recorded public beliefs and
+can disagree because of beliefs as well as action errors. Bootstrap tails use 4000
+resamples and toy populations; the study is not a prospectively powered real-population
+trial. Viewed v0.4/v0.5 holdouts must not become the next confirmation set.
+
+Next: explicit re-raise/continuation branches, independent-model sensitivity and an
+adaptation ablation on training data; then a frozen candidate and fresh holdouts.
+Continue external-sampling MCCFR in Kuhn/Leduc before considering Hold'em abstractions.
+No continuous service, poker-room adapter, paid API or automatic strategy promotion
+was deployed. Detailed continuation commands are in NEXT_STEPS.md.

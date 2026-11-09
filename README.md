@@ -23,7 +23,7 @@ For a quick local smoke use `--count 1 --samples 4 --audit-samples 8`.
 New modules: `OpponentModel`, `AdaptiveTournamentStrategy`, `DecisionAnalyzer` and
 `benchmark_v05`. Old policies and v0.4 benchmark remain available. Read
 [the mathematical audit](docs/V05_AUDIT.md), [v0.5 benchmark](reports/v05/BENCHMARK.md),
-[separate LAG report](reports/v05/LAG.md), and [decision review](reports/v05/DECISIONS.md).
+[separate LAG report](reports/v05/LAG.md), [LAG findings](reports/v05/LAG_FINDINGS.md), and [decision review](reports/v05/DECISIONS.md).
 The algorithm is a response-tree heuristic, not a solved NLHE continuation strategy.
 
 Calibration uses public action counts on training seeds, not poker winnings:
@@ -179,3 +179,7 @@ TARGET.sqlite SHARD.sqlite`, then run the full-window benchmark command to regen
 reports from completed rows. Do not write concurrently into the same SQLite file.
 `PYTHONPATH=. python3.12 scripts/summarize_v05.py` creates the compact summary and
 LAG-only decision groups from the final experiment identity.
+
+Push checks on the development branch work independently of `main`. GitHub may
+require a workflow to be registered on the default branch before manual dispatch;
+no change to `main` was made to enable schedules or dispatch registration.
