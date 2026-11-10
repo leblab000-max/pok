@@ -27,6 +27,15 @@ class PublicAction:
 
 
 @dataclass(frozen=True)
+class BettingState:
+    """Public street state required for exact continuation/reopening rules."""
+    current_bet: int
+    last_full_raise: int
+    acted: tuple[int, ...]
+    faced: tuple[tuple[int, int], ...]
+
+
+@dataclass(frozen=True)
 class Observation:
     seat: int
     hole_cards: tuple[str, str]
@@ -52,6 +61,7 @@ class Observation:
     public_actions: tuple[PublicAction, ...] = ()
     hand_id: int = 0
     payout_order: tuple[int, ...] = ()
+    betting_state: BettingState | None = None
 
     def __post_init__(self):
         from .cards import RANKS, SUITS

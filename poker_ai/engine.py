@@ -6,7 +6,7 @@ from collections.abc import Callable
 from .cards import deck, evaluate_seven
 from .betting import BettingRound
 from .pots import settle_pots
-from .strategy import Observation, Strategy, validate_decision, PublicAction
+from .strategy import Observation, Strategy, validate_decision, PublicAction, BettingState
 
 @dataclass
 class HandResult:
@@ -69,7 +69,8 @@ def play_hand(stacks: dict[int, int], button: int, strategies: dict[int, Strateg
                               history=tuple(history), tournament_players=len(seats),
                               stacks=tuple(stacks.items()), contributions=tuple(committed.items()),
                               street_contributions=tuple(b.contributions.items()), folded=tuple(sorted(folded)),
-                              payouts=payouts, public_actions=tuple(events), hand_id=hand_id,payout_order=tuple(order))
+                              payouts=payouts, public_actions=tuple(events), hand_id=hand_id,payout_order=tuple(order),
+                              betting_state=BettingState(b.current_bet,b.last_full_raise,tuple(sorted(b.acted)),tuple(sorted(b.faced.items()))))
             started = perf_counter()
             decision = strategies[s].decide(obs)
             elapsed = perf_counter()-started

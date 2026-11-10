@@ -31,6 +31,10 @@ jobs:
         run: |
           python -m poker_ai.benchmark_v05 --count 1 --samples 4 --audit-samples 8 --seconds 120 --db v05-smoke.sqlite --out v05-smoke > v05-status.json
           python -c "import json; r=json.load(open('v05-status.json')); assert r['completed']==12 and not r['budget_exhausted'], r"
+      - name: v0.6 continuation league smoke
+        run: |
+          python -m poker_ai.league --split train --seed 12345 --count 1 --samples 4 --policies blend,lookahead,fixed --seconds 90 --db v06-smoke.sqlite --out v06-smoke > v06-status.json
+          python -c "import json; r=json.load(open('v06-status.json')); assert r['completed']==9 and not r['budget_exhausted'], r"
       - name: Scheduled reproducible experiment
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: python -m poker_ai.benchmark_v05 --count 3 --samples 16 --audit-samples 32 --seconds 180 --db scheduled.sqlite --out scheduled
@@ -43,6 +47,9 @@ jobs:
             smoke.review.md
             smoke-status.json
             smoke.sqlite
+            v06-smoke/
+            v06-status.json
+            v06-smoke.sqlite
             scheduled/
             v05-smoke/
             v05-status.json
