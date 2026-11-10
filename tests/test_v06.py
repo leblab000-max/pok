@@ -194,3 +194,23 @@ class CanonicalSeatOrderingTests(unittest.TestCase):
         original=evaluate_continuations(o,d,weights,samples=4,seed=16)
         reordered=replace(o,stacks=tuple(reversed(o.stacks)))
         self.assertEqual(original,evaluate_continuations(reordered,d,weights,samples=4,seed=16))
+
+class SimultaneousEliminationUtilityTests(unittest.TestCase):
+    def make_observation(self,stacks):
+        return Observation(0,('As','Kh'),(),stacks[0],0,0,20,stacks[0],3,
+                           stacks=tuple(stacks.items()),contributions=tuple((s,0) for s in stacks),
+                           street_contributions=tuple((s,0) for s in stacks),payouts=(50,30,20))
+    def test_different_prehand_stacks_receive_engine_ranked_prizes(self):
+        from poker_ai.rollout import terminal_utilities
+        o=self.make_observation({0:100,1:200,2:300})
+        self.assertEqual(terminal_utilities(o,{0:0,1:0,2:600}),{0:20,1:30,2:50})
+    def test_equal_stacks_use_engine_seat_tiebreak_not_split_prizes(self):
+        from poker_ai.rollout import terminal_utilities
+        o=self.make_observation({0:100,1:100,2:100})
+        self.assertEqual(terminal_utilities(o,{0:0,1:0,2:300}),{0:30,1:20,2:50})
+    def test_survivor_equities_plus_elimination_prizes_conserve_payouts(self):
+        from poker_ai.rollout import terminal_utilities
+        o=self.make_observation({0:100,1:200,2:300})
+        result=terminal_utilities(o,{0:0,1:200,2:400})
+        self.assertEqual(result[0],20)
+        self.assertAlmostEqual(sum(result.values()),100)

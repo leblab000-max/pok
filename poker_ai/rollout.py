@@ -10,6 +10,25 @@ from .sampling import sample_deals
 from .strategy import Observation,Decision,validate_decision
 
 
+def terminal_utilities(o: Observation, final: dict[int,int]) -> dict[int,float]:
+    """Exact engine bust-order prizes, then ICM only for surviving positive stacks.
+
+    Splitting bottom prizes among zero stacks is wrong when the engine ranks
+    simultaneous eliminations by pre-hand chips and then seat order.
+    """
+    seats=sorted(dict(o.stacks));before={s:dict(o.stacks)[s]+dict(o.contributions)[s] for s in seats}
+    if set(final)!=set(seats) or any(v<0 for v in final.values()) or sum(final.values())<=0:
+        raise ValueError('Invalid terminal stack vector')
+    prizes=tuple(o.payouts)+(0.0,)*(len(seats)-len(o.payouts))
+    busted=sorted((s for s in seats if final[s]==0),key=lambda s:(before[s],-s))
+    result={s:0.0 for s in seats}
+    for index,seat in enumerate(busted):result[seat]=prizes[len(seats)-index-1]
+    survivors=[s for s in seats if final[s]>0]
+    equities=icm([final[s] for s in survivors],list(prizes[:len(survivors)]))
+    result.update(zip(survivors,equities))
+    return result
+
+
 def evaluate_continuations(o: Observation,base: Decision,weights: dict[int,dict[str,float]],
                            *,samples: int=16,seed: int=1,use_icm: bool=True) -> dict:
     if samples<2 or samples>256:raise ValueError('Require 2–256 continuation samples')
@@ -45,7 +64,7 @@ def evaluate_continuations(o: Observation,base: Decision,weights: dict[int,dict[
             chip=result.stacks[o.seat]-o.stack;chips[j].append(chip)
             if money_mode:
                 key=tuple(result.stacks[s] for s in seats)
-                if key not in money_cache:money_cache[key]=icm(list(key),list(o.payouts))[hero]
+                if key not in money_cache:money_cache[key]=terminal_utilities(o,result.stacks)[o.seat]
                 values[j].append(money_cache[key])
             else:values[j].append(chip)
             actions+=result.actions;raises+=result.raises;future+=result.future_streets

@@ -70,7 +70,10 @@ approximation** to paired gain uncertainty and a .25-BB threshold gate overrides
 this is not a finite-sample guarantee at such small sample counts. Monetary thresholds
 use .25% of remaining payouts in comparable utility units.
 
-At <=10 BB the full terminal hand vectors are mapped to exact ICM. Unlike a universal
+At <=10 BB the full terminal hand vectors are mapped to exact ICM. Simultaneous
+eliminations first receive actual engine-ranked bottom payouts (pre-hand chips,
+then seat tiebreak); ICM is computed only for positive-stack survivors. This avoids
+incorrectly averaging different finishing prizes among zero stacks. Unlike a universal
 risk penalty, each compared action has an explicit terminal hand distribution,
 including fold continuation and ties. ICM remains a future-tournament approximation;
 exact arithmetic does not make the underlying rollout policy or hand ranges correct.

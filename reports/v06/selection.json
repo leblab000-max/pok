@@ -1,0 +1,39 @@
+{
+  "version": "0.6",
+  "split": "train",
+  "source": "a127620f9b172c3b151f972752c2198076c38c7dcefa1fa8fd5060e438be939c",
+  "selected": "fixed",
+  "candidates": {
+    "blend": {
+      "profile_roi": {
+        "tag": 1.2727272727272727,
+        "lag": 0.45454545454545453,
+        "passive": 0.5
+      },
+      "score": 0.648564305353304
+    },
+    "lookahead": {
+      "profile_roi": {
+        "tag": 1.2727272727272727,
+        "lag": 0.9545454545454546,
+        "passive": 0.7727272727272727
+      },
+      "score": 0.9483402208447506
+    },
+    "fixed": {
+      "profile_roi": {
+        "tag": 1.5,
+        "lag": 0.5909090909090909,
+        "passive": 1.2272727272727273
+      },
+      "score": 1.01083480992442
+    }
+  },
+  "training_seeds": [
+    10000,
+    10017
+  ],
+  "samples": 32,
+  "calibration": "17da834551b4e7bbf0d41d070eb82259ae553bf392abf90a5d87b8dfb336bb6b",
+  "rule": "Equal-profile mean ROI minus .25 * profile-mean population SD; candidates fixed before viewing training scores."
+}
