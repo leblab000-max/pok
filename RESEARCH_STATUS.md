@@ -1,93 +1,120 @@
-# Poker AI v0.5 research status — 2026-11-09
+# Poker AI v0.6 research status — 2026-11-10
 
-## Outcome
+## Result
 
-v0.5 implements a public-only opponent model, explicit mixed-response action EV,
-independent decision screening and reproducible comparisons. **Adaptive is not a
-proven stronger replacement for Advanced.** Mathematical significantly outperformed
-Adaptive within the synthetic LAG and Passive populations in this study. Keep the
-new policy experimental; no autonomous promotion or profitability claim is made.
+A training-selected full-hand continuation candidate improved the predeclared
+independent equal-mixture tournament outcome over Mathematical, Advanced and
+Adaptive. This is a supported **synthetic-population** result, not real-money
+profitability, universal superiority or a GTO solution.
 
-Work is on dev/poker-simulator-v03; main is unchanged. Implementation c266b72;
-checkpoint/reproduction tooling 5a46952. The implementation/tooling CI passed:
-https://github.com/leblab000-max/pok/actions/runs/42644234787
+Working branch: dev/poker-simulator-v03. main is unchanged.
+Implementation checkpoints: dc5792c and c06204b. Windows setup handoff: 8be71f2.
+Source SHA256: a127620f9b172c3b151f972752c2198076c38c7dcefa1fa8fd5060e438be939c.
+Frozen selection: reports/v06/selection.json, chosen only from training data.
 
-## Mathematical audit and implementation
+## Independent confirmation
 
-See docs/V05_AUDIT.md for defects, reproducing tests and assumptions. Corrections in
-Adaptive include opportunity-based fold statistics, bet/raise distinction,
-size/board-conditioned responses, mixed multiway fold/call subsets, exact side pots
-and unmatched returns, eligible pot odds, nonzero check realization, and hero-stack
-shove eligibility. Shared fixes cover clockwise odd chips in ICM branches, numeric
-range underflow and zero-mass CDF boundaries. Forced checks/calls no longer apply
-inappropriate range narrowing in the Adaptive model. Advanced's v0.4 decision model
-is preserved as a reference, with exact-output shared optimizations.
+- Training: 324 final-source tournaments, seeds 10000–10017, six policies and three
+  populations. Historical correctness-development configurations are preserved but
+  excluded from this final source identity.
+- Confirmation: **1296 tournaments**, six arms, 72 seed clusters 3000000–3000071,
+  three populations; every hero seat visited eight times per policy/population.
+- Additional unseen-family diagnostics: **216 tournaments**, mixed/large-size
+  pressure populations, seeds 4000000–4000017, every seat twice per arm/population.
+- Primary inference resamples paired whole seed clusters, keeping all three
+  populations together: 10000 bootstrap replicates, family alpha .05/3.
 
-OpponentModel tracks smoothed VPIP/PFR per hand, postflop aggression factor,
-fold-to-raise and eligible 3-bet opportunities, counts and approximate uncertainty.
-It refuses adaptation before 30 hands and freezes style before each hand. No hidden
-opponent cards or sampled future runout are used as real playing information.
-Calibration uses 90 training tournaments; validation uses 30 separate training-validation
-tournaments. Calibration improves LAG/Passive classification Brier scores but worsens
-TAG: centroid calibration is not universally beneficial or calibrated fold equity.
+The fixed-mixture candidate's equal-population mean ROI was **+83.3%**, compared
+with Mathematical +45.1%, Advanced +37.1%, Adaptive +33.3%. The specified nine-player
+100 buy-in / 10 fee tournament model pays 450/270/180. These are outcome estimates
+against deliberately limited artificial opponents, not action counterfactual EV.
 
-DecisionAnalyzer records public observations, actions, larger-sample independent
-alternative estimates, paired uncertainty and potential regret groups. It never
-uses realized hand winnings as an error label. Audits share structural model limits;
-low model regret does not validate the policy.
+Candidate gain (ROI percentage points), with adjusted paired bootstrap intervals:
 
-## Verified checks
+| Reference | Gain pp | Adjusted interval pp |
+|---|---:|---|
+| Mathematical | +38.3 | [+15.2, +61.7] |
+| Advanced | +46.2 | [+9.1, +84.1] |
+| Adaptive | +50.0 | [+9.1, +89.8] |
 
-- Python 3.12: **110 unit/integration tests passed** locally and implementation CI.
-- **10000 randomized hands**, seed 20261109: chip/decision invariants passed.
-- **1296 final holdout tournaments**: 108 per policy/profile; each hero seat 12 times.
-- Source SHA256: `6bbf57dcb9de8961b9ef205605e41b450ec096d7ff8c1ab7a670cf9ebc805f62`.
-- Chip totals, finish permutations, fee/payout arithmetic and unique result keys
-  checked independently from exported results. SQLite integrity/foreign-key checks pass.
-- **3410 independent audits**, **22210 stored decision traces** for the final configuration.
-- Resume skips completed results; raw results and generated benchmark/decision reports
-  were byte-identical after rerun. Historical incomplete configurations and shard
-  source databases are preserved; only final identity is reported.
-- Adaptive single-tournament CLI plus exact resume checked. Checkpoint merge tested
-  for duplicate avoidance and trace foreign-key remapping.
-- compileall and git diff --check pass. No packages, paid services or servers purchased.
+The gain is not uniform. Against TAG the candidate ROI +60.2% trails Advanced +164.8%
+(adjusted difference -104.5 pp [-188.6,-14.8]). Against LAG, +78.4% outperformed
+Advanced -46.6% and Adaptive -47.7%; superiority over Mathematical +69.3% is not
+established for LAG alone (+9.1 pp [-28.4,+44.3]). Full per-profile results are in
+reports/v06/confirm/STATISTICS.md.
 
-## Performance
+On the 216 unseen-family diagnostics, superiority over Mathematical is not
+established: equal-family gain +34.1 pp [-29.5,+100.0]. Do not extrapolate the
+primary mixture result to arbitrary opponent populations.
 
-Same 48 frozen public states, 32 equity samples, 3 timing passes:
-Advanced before mean/P95 **79.272/213.075 ms**, after
-**23.599/49.070 ms**. Mean reduction **70.2%**;
-all numeric diagnostics identical. Final profiling ran after simulation workers ended.
-Peak RSS of that profiling process: 39708 KiB (not a whole-system memory bound).
-Live-tournament latencies reflect concurrent compute load; see SUMMARY.md and
-BENCHMARK.md. Samples were not reduced to obtain the optimization.
+## What produced the improvement
 
-## Final interpretation and LAG
+The selected candidate uses Mathematical as its base and checks scoped alternatives
+with eight complete sampled hand continuations. It models re-raises, subsequent
+hero decisions and future streets through the real BettingRound primitive. Every
+surrogate actor sees only its own hypothetical hole cards and the revealed board
+prefix. Sampled runouts and other players' private cards are not policy inputs.
 
-Adaptive/Advanced ROI: TAG +125.8/+182.6%, LAG -15.9/-23.5%, Passive -34.1/-6.1%.
-Against LAG, Adaptive minus Advanced +7.6 pp has adjusted bootstrap interval
-[-34.1,+49.2] pp: no supported improvement. Adaptive minus Mathematical is
--88.6 pp [-136.4,-35.6], supporting worse performance within that artificial population.
-The study does not establish general poker strength or real-money profitability.
+The public BettingState checkpoint includes current bet, full-raise size, acted seats
+and amounts faced, allowing exact continuation of reopening/action order rules.
+Side pots, unmatched returns and clockwise odd chips use the engine primitives.
+Monetary utility awards engine-ranked simultaneous-elimination prizes before applying
+ICM to positive-stack survivors, fixing the zero-stack equal-prize split error.
 
-Only 2.1% of Adaptive decisions versus LAG had any opponent ready for adaptation;
-only 0.9% of recorded opponent contexts met the evidence threshold. Observed snapshot
-wager responses were raises 62.8% of the time, a branch missing from the EV model.
-The auditor flagged zero of 159 Adaptive decisions against LAG, illustrating why
-agreement with the same incomplete model cannot prove good play. See reports/v05/LAG.md,
-LAG_FINDINGS.md, LAG_DECISIONS.md and OPPONENT_DIAGNOSTICS.md.
+Candidate continuations were invoked 3992 times in primary confirmation and overrode
+626 root decisions. Simulations included 120384 aggressive actions and 67048 future
+street advances. Those counts are modeled work, not independent experimental samples.
 
-## Known limits / next priority
+The no-rollout arm exactly matched Mathematical's outcomes on all 216 corresponding
+scenarios, as expected by construction. Removing continuation therefore removes the
+measured +38.3 pp mixture gain. It is not an extra independent algorithm.
 
-Response models omit re-raises, future betting, explicit draw likelihoods and folded-card
-posterior inference. Public-rate centroids are heuristic profile calibration, not a
-solved/generative opponent model. Audits condition on recorded public beliefs and
-can disagree because of beliefs as well as action errors. Bootstrap tails use 4000
-resamples and toy populations; the study is not a prospectively powered real-population
-trial. Viewed v0.4/v0.5 holdouts must not become the next confirmation set.
+## Adaptation did not earn automatic promotion
 
-Next: explicit re-raise/continuation branches, independent-model sensitivity and an
-adaptation ablation on training data; then a frozen candidate and fresh holdouts.
-Continue external-sampling MCCFR in Kuhn/Leduc before considering Hold'em abstractions.
-No continuous service, poker-room adapter, paid API or automatic strategy promotion
-was deployed. Detailed continuation commands are in NEXT_STEPS.md.
+StylePosterior uses one observed preflop category per completed opportunity; walks
+and forced all-ins without a decision are censored. VPIP/PFR evidence is not counted
+twice, repeated raises do not multiply hand counts, and current-hand style updates
+are delayed to the next boundary. Likelihood discounting and a profile floor retain
+uncertainty. The learned portfolio is preserved.
+
+Training selected the fixed-mixture candidate rather than learned routing. A direct
+adaptation toggle on confirmation produced +19.3 pp relative to the fixed candidate,
+but its secondary corrected interval [-8.3,+46.2] crosses zero. No model was reselected
+or retuned using that higher point estimate. See reports/v06/ABLATION.md.
+
+## Verified engineering evidence
+
+- **136 tests passed**; implementation CI succeeded (run 42764109244).
+- **1000 randomized real hand checkpoints** replayed to exactly the same final stacks
+  as the direct engine, including shuffled dictionary order, side pots, folds and
+  mid-round state. Seed 60603. The replay stress uses an explicit 4096-action test
+  budget; production continuations cap actions at 256 and retain the base action
+  when that model cap is exceeded.
+- The original 10000-hand invariant stress remains in CI and passed for this source.
+- Chip totals 9000, finish ranks 1–9, payouts, balanced seat rotations, unique keys,
+  frozen source/selection hashes, SQLite integrity and foreign keys verified for
+  all 1512 final test tournaments.
+- Both completed league reruns skipped saved tournaments and reproduced raw result
+  and league report bytes exactly. All original shards and earlier configs retained.
+- One-command candidate launch and exact resume verified in the Linux cloud. Native
+  Windows execution is handed to local Codex; no unobserved Windows success is claimed.
+- compileall and git diff --check pass. No paid API, server purchase or poker-room
+  integration was enabled. No continuous background training is claimed.
+
+## Runtime and remaining limits
+
+In primary confirmation, candidate mean/P95 decision time was **7.04/28.88 ms**,
+Mathematical 2.31/4.27, Advanced 20.10/43.14, Adaptive 24.86/57.75 on this cloud host.
+The candidate can spend up to 64 base equity draws plus eight shared full-hand deals;
+this is not an equal-wall-time comparison. Actor-policy actions add bounded work.
+
+Surrogate policies are finite archetypes (hero continuation currently TAG), not
+optimal continuation play. Determinization/strategy-fusion bias, heuristic range
+likelihoods, small eight-deal normal uncertainty approximations and calibration
+mismatch remain. Folded-card posterior inference and multitable tournaments are
+not implemented. ICM is exact arithmetic conditional on its tournament model.
+
+Next: independent replication and wider opponents; test learned routing separately
+on fresh data; improve surrogate continuation policy through validated small-game
+CFR/MCCFR before expanding abstractions. Viewed confirmation windows must not be
+reused after tuning. Commands and handoff are in README.md and NEXT_STEPS.md.

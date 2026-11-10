@@ -1,8 +1,9 @@
 # Windows local setup handoff
 
 This task prepares the existing research project on the owner's Windows computer.
-Cloud validation may still be running. Do not start a competing source-edit/push
-session until its result handoff is complete.
+The declared v0.6 cloud confirmation and stress studies completed. Read the latest
+RESEARCH_STATUS.md and reports/v06/SUMMARY.md. This handoff still authorizes setup
+and verification only; start source edits after a new explicit owner task.
 
 ## Task for local Codex
 

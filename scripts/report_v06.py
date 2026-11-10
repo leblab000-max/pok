@@ -22,6 +22,7 @@ def main():
     p.add_argument('--results',default='reports/v06/confirm/results.json')
     p.add_argument('--out',default='reports/v06/confirm/STATISTICS.md')
     p.add_argument('--expected',type=int,default=1296)
+    p.add_argument('--diagnostic',action='store_true',help='Label out-of-family study as exploratory, not primary confirmation')
     args=p.parse_args();data=json.loads(Path(args.results).read_text());rows=data['rows']
     if data['config']['split']!='test':raise ValueError('Confirmation report requires test data')
     source=hashlib.sha256(b''.join(f.read_bytes() for f in sorted(Path('poker_ai').glob('*.py')))).hexdigest()
@@ -44,8 +45,9 @@ def main():
             values=[lookup[name,profile,s] for s in seeds];roi=[v['roi'] for v in values];ci=interval(roi)
             timings=[t for v in values for t in v['decision_seconds']]
             lines.append(f"| {profile} | {name} | {len(values)} | {100*statistics.mean(roi):.1f} | [{100*ci[0]:.1f}, {100*ci[1]:.1f}] | {statistics.mean(v['chip_per_hand'] for v in values):.2f} | {statistics.mean(v['place'] for v in values):.2f} | {100*statistics.mean(v['itm'] for v in values):.1f} | {1000*statistics.mean(timings):.2f}/{1000*sorted(timings)[int(.95*len(timings))]:.2f} | {sum(v['rollout_calls'] for v in values)}/{sum(v['rollout_overrides'] for v in values)} |")
-    primary={};lines+=['','## Primary: equal-population average per seed','',
-                       'Three predeclared reference comparisons; family alpha .05/3, 10000 bootstrap replicates. These are synthetic-population findings, not real-money profitability.',
+    primary={};lines+=['','## Diagnostic equal-population aggregate' if args.diagnostic else '## Primary: equal-population average per seed','',
+                       ('Exploratory out-of-family comparisons; not additional primary proof. ' if args.diagnostic else 'Three predeclared reference comparisons; ')+
+                       'Family alpha .05/3, 10000 bootstrap replicates. Synthetic-population findings, not real-money profitability.',
                        '', '| Reference | Paired mean ROI gain pp | Adjusted bootstrap interval pp | Positive lower bound |',
                        '|---|---:|---|---|']
     for ref in ('math','advanced','adaptive'):
@@ -69,7 +71,7 @@ def main():
             'A low Monte Carlo regret or a positive interval here is not a GTO certificate. Ablations identical by construction must not be interpreted as separate independent algorithms. '
             'The experiment is balanced by seat and population; policy actions can change later random game trajectories even with the same seed.']
     Path(args.out).write_text('\n'.join(lines)+'\n')
-    Path(args.out).with_suffix('.json').write_text(json.dumps(dict(primary=primary,profiles=contrasts,seed_clusters=len(seeds),tournaments=len(rows)),indent=2)+'\n')
+    Path(args.out).with_suffix('.json').write_text(json.dumps(dict(primary=primary,profiles=contrasts,seed_clusters=len(seeds),tournaments=len(rows),study_kind='diagnostic' if args.diagnostic else 'confirmation'),indent=2)+'\n')
     print(json.dumps(primary,indent=2))
 
 if __name__=='__main__':main()

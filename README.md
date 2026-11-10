@@ -1,7 +1,71 @@
-# Poker AI v0.5 — calibrated adaptive tournament research
+# Poker AI v0.6 — evidence-selected continuation research
 
 Python **3.12**, standard library only. No poker-room connections or paid APIs.
 This is an auditable research agent, not a proven profitable or GTO strategy.
+
+## v0.6 result
+
+The frozen candidate improved equal-mixture ROI by **38.3 percentage points over
+Mathematical**, corrected independent-bootstrap interval **[15.2,61.7]**, on the
+predeclared synthetic study. It is weaker than Advanced against TAG; general
+superiority and real-money profitability are not established.
+See [measured summary](reports/v06/SUMMARY.md),
+[confirmation](reports/v06/confirm/STATISTICS.md),
+[adaptation/continuation ablations](reports/v06/ABLATION.md), and
+[unseen-family diagnostics](reports/v06/stress/STATISTICS.md).
+
+## v0.6: one-command candidate run
+
+Python 3.12, repository root:
+
+```bash
+python3.12 scripts/play_v06.py
+```
+
+On Windows PowerShell: `py -3.12 scripts/play_v06.py`.
+The script loads the frozen training-selected candidate, runs one 9-seat tournament
+against a mixed population, saves SQLite results and writes `runs/local/LEAGUE.md`.
+It does not connect to a poker room or install anything. Use `--seed 43` to change
+the scenario; repeating the same command resumes/reuses completed results.
+
+The selected algorithm is recorded in [selection.json](reports/v06/selection.json).
+Training selected the fixed-mixture, full-hand lookahead candidate. Cross-hand style
+adaptation is disabled in that candidate; current-hand ranges still use public
+actions. The learned variant is preserved and tested as a direct ablation. More
+complexity is not automatically treated as an improvement.
+
+Validation and independent confirmation:
+
+```bash
+python3.12 -m unittest discover -s tests -v
+python3.12 scripts/stress_continuation.py
+python3.12 -m poker_ai.league --split test --seed 3000000 --count 72 --samples 32 \
+  --policies math,advanced,adaptive,candidate,toggle_adapt,no_rollout \
+  --selection reports/v06/selection.json --seconds 600 \
+  --db v06-confirm.sqlite --out reports/v06/confirm
+python3.12 scripts/report_v06.py
+```
+
+Repeat the league command if its time budget is exhausted; the target is 1296
+completed tournaments. Different policies can change later trajectories even with
+shared seeds. The report uses paired seed clusters across all populations, with
+three predeclared primary reference comparisons and multiplicity correction.
+
+Additional unseen-family diagnostics (216 tournaments, not selection data):
+
+```bash
+python3.12 -m poker_ai.league --split test --seed 4000000 --count 18 --samples 32 \
+  --profiles mixed,pressure --policies math,advanced,adaptive,candidate,toggle_adapt,no_rollout \
+  --selection reports/v06/selection.json --seconds 600 \
+  --db v06-stress.sqlite --out reports/v06/stress
+python3.12 scripts/report_v06.py --results reports/v06/stress/results.json \
+  --out reports/v06/stress/STATISTICS.md --expected 216 --diagnostic
+```
+
+The finite-archetype response model, determinization and surrogate future policies
+remain approximations. Read [continuation design](docs/V06_CONTINUATIONS.md) and
+[predeclared protocol](reports/v06/PROTOCOL.md) before interpreting results.
+The old v0.4/v0.5 strategies and reports remain available below.
 
 ## v0.5 commands
 
