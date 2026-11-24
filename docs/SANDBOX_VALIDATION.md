@@ -11,8 +11,8 @@ cannot be opened on a different PC as though it were the same machine.
 | Check | Result |
 |---|---|
 | Original baseline unit suite before changes | 141 passed |
-| Full suite including actual Chromium | 162 passed, no skips (19.066 s) |
-| New sandbox tests within that suite | 21 passed: 12 engine/session/HTTP, 5 setup/Git/database, 4 Chromium |
+| Full suite including actual Chromium | 163 passed, no skips |
+| New sandbox tests within that suite | 22 passed: 12 engine/session/HTTP, 5 setup/Git/database, 5 Chromium |
 | Existing randomized engine invariant stress | 10,000 hands passed, seed 20261109 |
 | Bootstrap setup in real isolated environment | passed; pinned packages and Chromium found |
 | Real launcher with a persistent Chromium profile | started on 127.0.0.1:8765 in headless mode |
@@ -48,6 +48,11 @@ connection context only ends a transaction and does not close the connection.
 The benchmark connection now commits/rolls back and closes on context exit;
 the read-only decision review closes its connection explicitly. A portable
 regression test verifies commit, rollback and a closed connection before rename.
+The next Windows run also exposed a UI race: a quick Start click during an
+unfinished Reset could be silently dropped. Command buttons now remain disabled
+until the request completes; emergency Stop remains available. Stale responses
+cannot overwrite newer command state. A delayed-response Chromium regression
+reproduces this case independently of machine speed.
 No strategy or mathematical decision rule was changed.
 
 A real launcher check also exposed a Ctrl+C/Playwright dispatcher shutdown hang.

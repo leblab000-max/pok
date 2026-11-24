@@ -67,6 +67,19 @@ class ChromiumTests(unittest.TestCase):
         # Route rejects external origins without making a connection.
         result=p.evaluate("async()=>{try{await fetch('https://example.com/');return 'allowed'}catch(e){return 'blocked'}}")
         self.assertEqual(result,'blocked');self.assertEqual(self.errors,[])
+    def test_pending_reset_disables_start_instead_of_dropping_click(self):
+        # Reproduce a slower Windows/local disk response without relying on timing luck.
+        def slow_reset(route):
+            time.sleep(.15)
+            route.continue_()
+        self.page.route('**/api/reset',slow_reset)
+        self.page.click('#reset')
+        self.assertTrue(self.page.locator('#start').is_disabled())
+        # Playwright waits for the now-disabled Start to become actionable again.
+        self.page.click('#start')
+        self.wait(lambda:self.state()['pending'] is not None)
+        self.assertEqual(self.state()['status'],'running')
+
     def test_real_launcher_closes_browser_and_server_at_resource_deadline(self):
         import subprocess
         import sys
