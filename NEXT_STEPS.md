@@ -9,7 +9,8 @@ see `docs/SANDBOX_VALIDATION.md` for actual verification and outstanding limits.
 
 Next local verification:
 
-1. Check the new `Local browser sandbox` Actions run on Windows and Ubuntu.
+1. Completed: code commit 970a2a0 passed all 163 tests on Windows and Ubuntu 24.04.
+   Windows bat setup also passed. Evidence: Actions runs 45375005651 / 45375005650.
 2. Run the bat on the owner's Windows PC; this Cloud session is Linux and cannot
    install software on a disconnected Windows machine. Do not claim otherwise.
 3. Verify a headed browser opens, pause/stop behave correctly, and logs persist

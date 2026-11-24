@@ -11,7 +11,10 @@ cannot be opened on a different PC as though it were the same machine.
 | Check | Result |
 |---|---|
 | Original baseline unit suite before changes | 141 passed |
-| Full suite including actual Chromium | 163 passed, no skips |
+| Full suite including actual Chromium, connected Cloud Linux | 163 passed, no skips (19.975 s) |
+| GitHub Actions Ubuntu 24.04, actual Chromium | 163 passed (18.155 s) |
+| GitHub Actions Windows, actual Chromium | 163 passed (43.478 s) |
+| Windows bat setup entry point in Actions | passed: isolated environment ready |
 | New sandbox tests within that suite | 22 passed: 12 engine/session/HTTP, 5 setup/Git/database, 5 Chromium |
 | Existing randomized engine invariant stress | 10,000 hands passed, seed 20261109 |
 | Bootstrap setup in real isolated environment | passed; pinned packages and Chromium found |
@@ -37,6 +40,19 @@ check persisted real outcomes and ensure no opponent private observations are lo
 Detached engine hooks are checked for unchanged seeded results even when a callback
 mutates the data it receives. Real temporary Git repositories verify clean fast-forward,
 preservation of staged / unstaged / untracked work, and preservation of a main checkout.
+
+## Confirmed GitHub Actions
+
+Verified code commit: [`970a2a0`](https://github.com/leblab000-max/pok/commit/970a2a0fcc0e8f8045eb838baf9e8740d6128e7d).
+
+- [Windows + Ubuntu browser workflow: success](https://github.com/leblab000-max/pok/actions/runs/45375005651).
+  Both jobs executed all 163 tests with actual Chromium. Windows additionally ran
+  `start_poker.bat --no-sync --setup-only` successfully in `D:\a\pok\pok`.
+- [Engine tests, 10,000-hand stress and three benchmark smokes: success](https://github.com/leblab000-max/pok/actions/runs/45375005650).
+- Browser screenshots are available as artifacts in the browser workflow.
+
+These are actual completed checks, not anticipated results. The subsequent
+handoff-only documentation commit does not change tested application code.
 
 ## Cross-platform defects found and corrected
 
@@ -65,9 +81,9 @@ The real launcher also completed a 47-hand / 626-action, nine-seat tournament wi
 ## Limits and remaining machine-specific check
 
 - The Windows bat entry point and clean-machine Python / Git installation have
-  **not been executed on the owner's PC in this Cloud session**. A Windows/Ubuntu
-  Actions matrix is supplied; its status must be read from Actions, not inferred
-  from local Linux results. First headed launch on the owner's PC remains a local
+  **not been executed on the owner's PC in this Cloud session**. Windows/Ubuntu
+  Actions tests and the bat setup passed as linked above. This does not substitute
+  for checking the owner's specific Windows installation and headed display. First headed launch on the owner's PC remains a local
   acceptance check. No remote Windows access has been claimed or configured.
 - Displayed equity is independent uniform-range Monte Carlo diagnostics, tied to
   the observation before the shown action. It is not the policy's own range estimate.
