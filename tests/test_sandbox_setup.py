@@ -48,4 +48,24 @@ class SafeSetupTests(unittest.TestCase):
                 with InstanceLock(path):pass
         with InstanceLock(path):pass
 
+
+class DatabaseLifetimeTests(unittest.TestCase):
+    def test_benchmark_context_releases_file_and_commits_or_rolls_back(self):
+        import sqlite3
+        from poker_ai.benchmark import connect
+        with tempfile.TemporaryDirectory() as directory:
+            path=Path(directory)/'owned.sqlite'
+            with connect(str(path)) as db:
+                db.execute('CREATE TABLE lifetime_test (value INTEGER)')
+                db.execute('INSERT INTO lifetime_test VALUES (1)')
+            with self.assertRaises(sqlite3.ProgrammingError):db.execute('SELECT 1')
+            with self.assertRaises(RuntimeError):
+                with connect(str(path)) as db:
+                    db.execute('INSERT INTO lifetime_test VALUES (2)')
+                    raise RuntimeError('force rollback')
+            with connect(str(path)) as db:
+                self.assertEqual(db.execute('SELECT value FROM lifetime_test').fetchall(),[(1,)])
+            # Unlike Unix unlink, Windows rename/delete fails for an open SQLite handle.
+            moved=path.with_suffix('.moved');path.rename(moved);moved.unlink()
+
 if __name__=='__main__':unittest.main()

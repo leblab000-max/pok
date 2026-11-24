@@ -67,6 +67,18 @@ class ChromiumTests(unittest.TestCase):
         # Route rejects external origins without making a connection.
         result=p.evaluate("async()=>{try{await fetch('https://example.com/');return 'allowed'}catch(e){return 'blocked'}}")
         self.assertEqual(result,'blocked');self.assertEqual(self.errors,[])
+    def test_real_launcher_closes_browser_and_server_at_resource_deadline(self):
+        import subprocess
+        import sys
+        root=Path(__file__).resolve().parents[1]
+        directory=Path(self.temp.name)/'launcher'
+        result=subprocess.run([sys.executable,str(root/'scripts/run_sandbox.py'),
+            '--headless','--seconds','.3','--port','0','--directory',str(directory)],
+            capture_output=True,text=True,timeout=25)
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertIn('Poker sandbox: http://127.0.0.1:',result.stdout)
+        self.assertTrue((directory/'browser-profile/Default').exists())
+
     def test_all_six_manual_buttons_reach_the_actual_engine(self):
         # A check/call policy on all seats makes unopened postflop streets deterministic.
         from poker_ai.strategy import CallingBaseline

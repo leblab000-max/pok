@@ -23,8 +23,19 @@ def summary(values: list[float]) -> dict:
     return dict(n=n,mean=mean,se=se,ci=None if se is None else [mean-1.96*se,mean+1.96*se])
 
 
+class ManagedConnection(sqlite3.Connection):
+    """A benchmark context owns its connection as well as its transaction.
+
+    sqlite3's default context manager commits/rolls back but leaves the file open,
+    which retains Windows locks until GC. Do not nest connection contexts.
+    """
+    def __exit__(self, *args):
+        try: return super().__exit__(*args)
+        finally: self.close()
+
+
 def connect(path: str) -> sqlite3.Connection:
-    db=sqlite3.connect(path)
+    db=sqlite3.connect(path, factory=ManagedConnection)
     db.execute('PRAGMA foreign_keys=ON')
     db.executescript('''
         CREATE TABLE IF NOT EXISTS benchmark_runs (

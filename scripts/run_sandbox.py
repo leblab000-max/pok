@@ -2,6 +2,8 @@
 import argparse
 from pathlib import Path
 import sys
+import signal
+from time import monotonic
 import threading
 from urllib.parse import urlsplit
 
@@ -38,28 +40,39 @@ def main():
     parser.add_argument('--port',type=int,default=8765)
     parser.add_argument('--serve-only',action='store_true',help='HTTP only; browser integration testing / Linux')
     parser.add_argument('--headless',action='store_true')
+    parser.add_argument('--seconds',type=float,help='Optional finite runtime after browser startup')
     parser.add_argument('--directory',type=Path,default=ROOT/'runs/sandbox')
     args=parser.parse_args()
+    if args.seconds is not None and not 0 < args.seconds < float('inf'): parser.error('--seconds must be finite and positive')
+    stopping=threading.Event()
+    # Avoid raising KeyboardInterrupt inside Playwright's greenlet dispatcher.
+    for name in ('SIGINT','SIGTERM'):
+        signal.signal(getattr(signal,name),lambda *_:stopping.set())
     with InstanceLock(args.directory/'instance.lock'):
         server=SandboxServer(args.directory,args.port)
         thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
         print(f'Poker sandbox: {server.url}\nVirtual chips only. Data: {args.directory.resolve()}',flush=True)
         try:
             if args.serve_only:
-                thread.join()
+                deadline=monotonic()+args.seconds if args.seconds else float('inf')
+                while thread.is_alive() and not stopping.wait(.25) and monotonic()<deadline: pass
             else:
                 from playwright.sync_api import sync_playwright
                 with sync_playwright() as pw:
                     context=pw.chromium.launch_persistent_context(str(args.directory/'browser-profile'),
                         headless=args.headless,viewport=dict(width=1440,height=1000),
+                        handle_sigint=False,handle_sigterm=False,handle_sighup=False,
                         service_workers='block',args=['--disable-background-networking'])
                     context.route('**/*',lambda route:local_route(route,server.url))
                     page=context.pages[0] if context.pages else context.new_page()
+                    context.on('close',lambda:stopping.set())
                     page.goto(server.url)
+                    deadline=monotonic()+args.seconds if args.seconds else float('inf')
                     try:
-                        while context.pages: page.wait_for_timeout(250)
+                        while context.pages and not stopping.is_set() and monotonic()<deadline:
+                            page.wait_for_timeout(100)
                     except Exception as exc:
-                        if context.pages: raise exc
+                        if not stopping.is_set() and not page.is_closed(): raise exc
                     finally: context.close()
         except KeyboardInterrupt: pass
         finally:

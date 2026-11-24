@@ -107,7 +107,8 @@ export PLAYWRIGHT_BROWSERS_PATH="$PWD/.sandbox-browsers"
 .venv-sandbox/bin/python scripts/run_sandbox.py --serve-only     # сервер без GUI
 ```
 
-На Linux при сообщении Playwright об отсутствующих системных библиотеках:
+Playwright 1.58.0 проверяется в CI на Ubuntu 24.04; новый Ubuntu 26.04 пока не
+поддерживается этой закреплённой версией. На Linux при сообщении Playwright об отсутствующих системных библиотеках:
 `.venv-sandbox/bin/python -m playwright install-deps chromium` (может требовать sudo).
 Сервер не выставляется в интернет; для VPS используйте свой SSH-туннель к 8765.
 Стандартный движок по-прежнему не требует сторонних Python-пакетов.
@@ -128,7 +129,9 @@ $env:PLAYWRIGHT_BROWSERS_PATH = "$PWD\.sandbox-browsers"
 ```
 
 Workflow `.github/workflows/sandbox.yml` запускает тесты с настоящим Chromium на
-Ubuntu и Windows; Windows дополнительно вызывает bat в режиме установки без
+Ubuntu 24.04 и Windows; Windows дополнительно вызывает bat в режиме установки без
 повторной синхронизации. Скриншоты сохраняются в артефактах Actions на 7 дней.
 `--no-sync` предназначен для разработчика/CI с уже выбранной ревизией.
-Для прекращения HTTP-only режима нажмите Ctrl+C в терминале.
+Для прекращения HTTP-only режима нажмите Ctrl+C в терминале. Для ограниченного
+прогона можно добавить `--seconds 60` в `run_sandbox.py`; лимит начинается после
+запуска браузера. Он завершает браузер, AI и сервер без фонового продолжения.

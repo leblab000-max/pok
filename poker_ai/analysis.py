@@ -1,4 +1,5 @@
 """Decision traces and model-relative review; outcomes are never error labels."""
+from contextlib import closing
 from dataclasses import asdict
 import json
 import sqlite3
@@ -30,7 +31,7 @@ def analyze_alternative_decision(o: Observation, decision: Decision, evaluator) 
 
 def review(db_path: str, limit: int = 10, *, config: str | None = None,
            seed_range: tuple[int,int] | None = None) -> str:
-    with sqlite3.connect(db_path) as db:
+    with closing(sqlite3.connect(db_path)) as db:
         where = []; parameters = []
         if config is not None: where.append('b.config=?'); parameters.append(config)
         if seed_range is not None:

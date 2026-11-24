@@ -11,8 +11,8 @@ cannot be opened on a different PC as though it were the same machine.
 | Check | Result |
 |---|---|
 | Original baseline unit suite before changes | 141 passed |
-| Full suite including actual Chromium | 160 passed, no skips (14.191 s) |
-| New sandbox tests within that suite | 19 passed: 12 engine/session/HTTP, 4 setup/Git, 3 Chromium |
+| Full suite including actual Chromium | 162 passed, no skips (19.066 s) |
+| New sandbox tests within that suite | 21 passed: 12 engine/session/HTTP, 5 setup/Git/database, 4 Chromium |
 | Existing randomized engine invariant stress | 10,000 hands passed, seed 20261109 |
 | Bootstrap setup in real isolated environment | passed; pinned packages and Chromium found |
 | Real launcher with a persistent Chromium profile | started on 127.0.0.1:8765 in headless mode |
@@ -37,6 +37,25 @@ check persisted real outcomes and ensure no opponent private observations are lo
 Detached engine hooks are checked for unchanged seeded results even when a callback
 mutates the data it receives. Real temporary Git repositories verify clean fast-forward,
 preservation of staged / unstaged / untracked work, and preservation of a main checkout.
+
+## Cross-platform defects found and corrected
+
+The first Actions run exposed two real portability issues. `ubuntu-latest` had
+moved to Ubuntu 26.04, outside the pinned Playwright 1.58.0 support matrix; the
+browser job now explicitly uses Ubuntu 24.04. Windows ran the Chromium scenarios,
+but three historical tests failed while deleting SQLite files: Python's default
+connection context only ends a transaction and does not close the connection.
+The benchmark connection now commits/rolls back and closes on context exit;
+the read-only decision review closes its connection explicitly. A portable
+regression test verifies commit, rollback and a closed connection before rename.
+No strategy or mathematical decision rule was changed.
+
+A real launcher check also exposed a Ctrl+C/Playwright dispatcher shutdown hang.
+Signals now request orderly shutdown through an event, with explicit browser
+signal ownership. A finite `--seconds` runtime is tested against the actual launcher,
+its dedicated persistent profile and its server; no process is kept running by CI.
+The real launcher also completed a 47-hand / 626-action, nine-seat tournament with
+9,000 chips conserved. That is an integration check, not performance evidence.
 
 ## Limits and remaining machine-specific check
 
