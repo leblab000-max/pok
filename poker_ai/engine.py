@@ -19,7 +19,8 @@ class HandResult:
 def play_hand(stacks: dict[int, int], button: int, strategies: dict[int, Strategy],
               rng: random.Random, big_blind: int = 20, ante: int = 0, *,
               payouts: tuple[float, ...] = (), hand_id: int = 0,
-              decision_sink: Callable | None = None) -> HandResult:
+              decision_sink: Callable | None = None,
+              on_deal: Callable | None = None) -> HandResult:
     """Play one hand. Input stacks are copied; seats increase clockwise."""
     stacks = dict(stacks)
     seats = sorted(stacks)
@@ -45,6 +46,10 @@ def play_hand(stacks: dict[int, int], button: int, strategies: dict[int, Strateg
     for s in seats: pay(s, ante)
     forced = {s: 0 for s in seats}
     forced[sb] = pay(sb, big_blind // 2); forced[bb] = pay(bb, big_blind)
+    if on_deal is not None:
+        # Detached data for a trusted local host; never forward opponents' cards to AI/UI.
+        on_deal(hand_id, button, sb, bb, {s: tuple(h) for s,h in hole.items()},
+                dict(stacks), dict(committed), big_blind)
     folded: set[int] = set(); board: list[str] = []; history = []; events = []
     for street, count in [('preflop', 0), ('flop', 3), ('turn', 1), ('river', 1)]:
         if count:
@@ -118,7 +123,9 @@ def tournament(strategies: list[Strategy], seed: int = 1, stack: int = 1000,
                level_hands: int = 10, max_hands: int = 10000, *,
                payouts: tuple[float, ...] = (450.0,270.0,180.0),
                decision_sink: Callable | None = None,
-               deadline: float | None = None) -> TournamentResult:
+               deadline: float | None = None,
+               on_deal: Callable | None = None,
+               on_hand: Callable | None = None) -> TournamentResult:
     if not 2 <= len(strategies) <= 9 or stack <= 0 or level_hands <= 0:
         raise ValueError('Invalid tournament configuration')
     rng = random.Random(seed); stacks = dict.fromkeys(range(len(strategies)), stack)
@@ -129,8 +136,11 @@ def tournament(strategies: list[Strategy], seed: int = 1, stack: int = 1000,
             raise TimeoutError('Tournament budget exhausted; completed tournaments remain saved')
         before = dict(stacks)
         blind = 20 * 2 ** min(hand // level_hands, 20)
-        result = play_hand(stacks, button, dict(enumerate(strategies)), rng, blind, blind//10, payouts=payouts[:len(stacks)], hand_id=hand, decision_sink=decision_sink)
+        result = play_hand(stacks, button, dict(enumerate(strategies)), rng, blind, blind//10, payouts=payouts[:len(stacks)], hand_id=hand, decision_sink=decision_sink, on_deal=on_deal)
         stacks = result.stacks
+        if on_hand is not None:
+            on_hand(hand, dict(before), HandResult(dict(result.stacks), result.board,
+                                                 result.history, dict(result.contributions)))
         clockwise = sorted(before)
         clockwise = clockwise[clockwise.index(button)+1:] + clockwise[:clockwise.index(button)+1]
         for seat in before:

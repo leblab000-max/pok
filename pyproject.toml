@@ -9,4 +9,7 @@ requires-python = ">=3.12"
 description = "Offline reproducible Hold'em research simulator"
 
 [tool.setuptools.packages.find]
-include = ["poker_ai*"]
+include = ["poker_ai*", "poker_sandbox*"]
+
+[tool.setuptools.package-data]
+poker_sandbox = ["static/*"]

@@ -1,3 +1,25 @@
+# Local browser sandbox handoff — 2026-11-24
+
+Work only in `dev/poker-simulator-v03`; do not change `main`.
+
+The local sandbox is implemented in `poker_sandbox/`, using existing policies and
+optional detached engine observation hooks. Run `start_poker.bat` on Windows.
+See `docs/LOCAL_SANDBOX.md` for installation, controls, data paths and exact tests;
+see `docs/SANDBOX_VALIDATION.md` for actual verification and outstanding limits.
+
+Next local verification:
+
+1. Check the new `Local browser sandbox` Actions run on Windows and Ubuntu.
+2. Run the bat on the owner's Windows PC; this Cloud session is Linux and cannot
+   install software on a disconnected Windows machine. Do not claim otherwise.
+3. Verify a headed browser opens, pause/stop behave correctly, and logs persist
+   after closing / reopening. No user default Chrome profile should be accessed.
+4. Historical source-frozen v0.6 benchmark artifacts must be replayed at their own
+   commits. Do not relabel new source hashes as historic validation or disable checks.
+5. Keep the scientific follow-up below; this UI work does not establish stronger AI.
+
+---
+
 # v0.6 continuation and evidence handoff
 
 Work only in dev/poker-simulator-v03. main must remain unchanged.

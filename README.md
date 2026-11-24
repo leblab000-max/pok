@@ -3,6 +3,19 @@
 Python **3.12**, standard library only. No poker-room connections or paid APIs.
 This is an auditable research agent, not a proven profitable or GTO strategy.
 
+## Windows: browser sandbox with virtual chips
+
+Double-click **[start_poker.bat](start_poker.bat)**. It checks Python 3.12 / Git,
+safely syncs the working branch, installs an isolated Playwright / Chromium and
+opens the local dashboard at **http://127.0.0.1:8765/**. Local changes are preserved
+in their original checkout. No poker-room access or real money.
+
+Four existing policies, 2–9 seats, public-state adapter, manual legal actions,
+pause / single step / latched emergency stop, SQLite and JSONL logs.
+See **[Windows instructions and limitations](docs/LOCAL_SANDBOX.md)** and
+[verification report](docs/SANDBOX_VALIDATION.md). Browser tooling is optional;
+the research engine itself remains standard-library only.
+
 ## v0.6 result
 
 The frozen candidate improved equal-mixture ROI by **38.3 percentage points over
